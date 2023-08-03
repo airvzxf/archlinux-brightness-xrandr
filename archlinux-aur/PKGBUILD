@@ -10,7 +10,7 @@ _release_tag=$(
     xargs basename
 )
 echo "_release_tag: ${_release_tag}"
-_tag=$(git rev-parse "v$_release_tag")
+_tag=$(git rev-parse "$_release_tag")
 echo "_tag: ${_tag}"
 # Join the name of the Git project and the release tag. It removes the letter 'v' from the tag.
 _full_name="${_git_project}-${_release_tag/v/}"

@@ -80,7 +80,7 @@ display_help() {
   echo "    value [plus or minus] the value obtained from the BRIGHTNESS option."
   echo ""
   echo "ARGS:"
-  echo "  NONE."
+  echo "  None."
   echo ""
   echo "OPTIONS:"
   echo "  ┌──────┬──────────────────┬──────────────────────────────────────────────────┐"

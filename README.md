@@ -19,7 +19,7 @@ It changes the brightness using the command `xrandr`.
 
 ### ARGS:
 
-- NONE.
+- None.
 
 ### OPTIONS:
 
