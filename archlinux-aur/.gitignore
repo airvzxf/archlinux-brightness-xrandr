@@ -1,7 +1,4 @@
-brightness-xrandr
+*brightness-xrandr*
 pkg
-src
-*.pkg.tar.zst
-*.tar.gz
-*.zip
+src/
 .SRCINFO
