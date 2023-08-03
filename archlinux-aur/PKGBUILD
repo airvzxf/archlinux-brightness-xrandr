@@ -26,16 +26,15 @@ depends=(bash xorg-xrandr grep coreutils sed bc)
 source=("${_git_project}.tar.gz::${url}/archive/refs/tags/${_release_tag}.tar.gz")
 md5sums=(SKIP)
 
-echo "srcdir: ${srcdir}"
-echo "ls: ${srcdir}/${_full_name}"
-ls -lha "${srcdir}/${_full_name}"
-
-echo "Git Describe:"
-git describe --long --tags --abbrev=7 || true
-
 # PKGBUILD functions
 pkgver() {
+  echo "srcdir: ${srcdir}"
+  echo "ls: ${srcdir}/${_full_name}"
+  ls -lha "${srcdir}/${_full_name}"
   cd "${srcdir}/${_full_name}" || return
+  git config --global --add safe.directory /github/workspace
+  echo "Git Describe:"
+  git describe --long --tags --abbrev=7 || true
   git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
