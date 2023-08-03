@@ -24,16 +24,21 @@ cd "${build_path}"
 pwd
 ls -lha .
 
-cp -R "${aur_package}" "${build_path}"
-chown -R "${user}":"${user}" "${build_path}"
+cp -R "${aur_package}/.*" "${build_path}"
+pwd
+ls -lha .
 
-echo "${password}" | su - "${user}" -c "cp ${build_path}; makepkg --log --force; cat *.log"
+chown -R "${user}":"${user}" "${build_path}"
+pwd
+ls -lha .
+
+echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --log --force; cat *.log"
 pwd
 ls -lha .
 ls -lha src
 cat "*.log"
 
-echo "${password}" | su - "${user}" -c "cp ${build_path}; makepkg --printsrcinfo > .SRCINFO; cat .SRCINFO"
+echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --printsrcinfo > .SRCINFO; cat .SRCINFO"
 pwd
 ls -lha .
 cat ".SRCINFO"
