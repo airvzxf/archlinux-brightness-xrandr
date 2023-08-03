@@ -15,6 +15,10 @@ build_path="${user_home}/build/"
 deploy_path="${user_home}/AUR/"
 aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
+ls -lha "${GITHUB_WORKSPACE}"
+
+ls -lha "${aur_package}"
+
 useradd -m "${user}"
 echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
 
@@ -24,7 +28,7 @@ cd "${build_path}"
 pwd
 ls -lha .
 
-cp -R "${aur_package}.*" "${build_path}"
+cp -R "${aur_package}*" "${build_path}"
 pwd
 ls -lha .
 
