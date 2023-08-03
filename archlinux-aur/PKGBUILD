@@ -9,8 +9,10 @@ _release_tag=$(
   curl -Ls -o /dev/null -w %{url_effective} "https://github.com/${_git_owner}/${_git_project}/releases/latest" |
     xargs basename
 )
+_release_tag="v1.0.0"
 echo "_release_tag: ${_release_tag}"
 _tag=$(git rev-parse "$_release_tag")
+_tag="36876f8bd8397cdb2b98fdd355febc7551779f91"
 echo "_tag: ${_tag}"
 # Join the name of the Git project and the release tag. It removes the letter 'v' from the tag.
 _full_name="${_git_project}-${_release_tag/v/}"
