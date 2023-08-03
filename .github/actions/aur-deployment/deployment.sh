@@ -15,39 +15,36 @@ build_path="${user_home}/build/"
 deploy_path="${user_home}/AUR/"
 aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
-ls -lha "${GITHUB_WORKSPACE}"
-
-ls -lha "${aur_package}"
-
 useradd -m "${user}"
 echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
 
 # Generate the package with the 'makepkg' command.
-mkdir -p "${build_path}"
-cd "${build_path}"
-#cd "${aur_package}"
+#mkdir -p "${build_path}"
+#cd "${build_path}"
+cd "${aur_package}"
 pwd
 ls -lha .
 
-cp "${aur_package}PKGBUILD" "${build_path}"
+#cp "${aur_package}PKGBUILD" "${build_path}"
+#pwd
+#ls -lha .
+
+#chown -R "${user}":"${user}" "${build_path}"
+chown -R "${user}":"${user}" "${aur_package}"
 pwd
 ls -lha .
 
-chown -R "${user}":"${user}" "${build_path}"
-#chown -R "${user}":"${user}" "${aur_package}"
-pwd
-ls -lha .
+echo "${password}" | su - "${user}" -c "git config --global --add safe.directory ${GITHUB_WORKSPACE}"
 
-#git config --global --add safe.directory "${GITHUB_WORKSPACE}"
-echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --log --force"
-#echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force"
+#echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --log --force"
+echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force"
 pwd
 ls -lha .
 ls -lha src
-cat brightness-xrandr-0-1-x86_64-pkgver.log
+cat brightness-xrandr*.log
 
-echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --printsrcinfo > .SRCINFO"
-#echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --printsrcinfo > .SRCINFO"
+#echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --printsrcinfo > .SRCINFO"
+echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --printsrcinfo > .SRCINFO"
 pwd
 ls -lha .
 cat .SRCINFO
