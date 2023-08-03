@@ -14,6 +14,21 @@ user_home="/home/${user}/"
 deploy_path="${user_home}AUR/"
 aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
+# Generate the package with the 'makepkg' command.
+pwd
+ls -lha .
+cd "${aur_package}"
+pwd
+ls -lha .
+makepkg --log --force
+ls -lha .
+ls -lha src
+cat "*.log"
+makepkg --printsrcinfo > .SRCINFO
+ls -lha .
+cat ".SRCINFO"
+
+# Generate and set up the AUR repository.
 useradd -m "${user}"
 echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
 
@@ -58,20 +73,21 @@ cd "${deploy_path}" || exit
 git clone "ssh://aur@aur.archlinux.org/${aur_project}.git"
 
 cd "${aur_project}" || exit
-cp -f "${aur_package}"* .
+#cp -f "${aur_package}"* .
 chown -R "${user}":"${user}" "${deploy_path}"
 
 pwd
-echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force; cat *.log"
+#echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force; cat *.log"
 pwd
 ls -lha .
 ls -lha "${aur_package}"
 ls -lha "${deploy_path}"
 ls -lha "${deploy_path}/${aur_project}"
-rm -fR "*${package_name}*" pkg src .SRCINFO
+#rm -fR "*${package_name}*" pkg src .SRCINFO
 pwd
-echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --printsrcinfo > ${deploy_path}/${aur_project}.SRCINFO"
+echo "${password}" | su - "${user}" -c "cp ${aur_package}/.SRCINFO ${deploy_path}/${aur_project}.SRCINFO"
 pwd
+
 git config user.email "israel.alberto.rv@gmail.com"
 git config user.name "Israel Roldan"
 git add .
