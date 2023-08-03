@@ -26,15 +26,20 @@ url="https://github.com/${_git_owner}/${_git_project}"
 license=(GPL3)
 depends=(bash xorg-xrandr grep coreutils sed bc)
 #source=("${_git_project}.tar.gz::${url}/archive/refs/tags/${_release_tag}.tar.gz")
-source=("git+${url}.git?signed#tag=${_tag}")
+source=("git+${url}.git#tag=${_tag}?signed")
 md5sums=(SKIP)
+# Israel Roldan (airvzxf) <israel.alberto.rv@gmail.com>, https://github.com/airvzxf.gpg
+validpgpkeys=(
+  63ADA633FE7468630D9BC56175530B8B9F74CF3A
+)
 
 echo "${url}.git?signed#tag=${_tag}"
-echo "git+${url}.git?signed#tag=${_tag}"
+echo "${url}.git#tag=${_tag}?signed"
 
 # PKGBUILD functions
 pkgver() {
-  cd "${srcdir}/${_full_name}" || return
+  #cd "${srcdir}/${_full_name}" || return
+  cd "${_git_project}" || return
   git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
