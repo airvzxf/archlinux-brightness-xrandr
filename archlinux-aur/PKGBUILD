@@ -4,12 +4,15 @@
 _name=brightness-xrandr
 _git_owner="airvzxf"
 _git_project="archlinux-${_name}"
+echo "_git_project: ${_git_project}"
 _release_tag=$(
   curl -Ls -o /dev/null -w %{url_effective} "https://github.com/${_git_owner}/${_git_project}/releases/latest" |
     xargs basename
 )
+echo "_release_tag: ${_release_tag}"
 # Join the name of the Git project and the release tag. It removes the letter 'v' from the tag.
 _full_name="${_git_project}-${_release_tag/v/}"
+echo "_full_name: ${_full_name}"
 
 # PKGBUILD variables
 pkgname="${_name}"
@@ -22,6 +25,13 @@ license=(GPL3)
 depends=(bash xorg-xrandr grep coreutils sed bc)
 source=("${_git_project}.tar.gz::${url}/archive/refs/tags/${_release_tag}.tar.gz")
 md5sums=(SKIP)
+
+echo "srcdir: ${srcdir}"
+echo "ls: ${srcdir}/${_full_name}"
+ls -lha "${srcdir}/${_full_name}"
+
+echo "Git Describe:"
+git describe --long --tags --abbrev=7 || true
 
 # PKGBUILD functions
 pkgver() {

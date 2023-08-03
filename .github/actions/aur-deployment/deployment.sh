@@ -15,6 +15,8 @@ build_path="${user_home}/build/"
 deploy_path="${user_home}/AUR/"
 aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
+git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+
 ls -lha "${GITHUB_WORKSPACE}"
 
 ls -lha "${aur_package}"
