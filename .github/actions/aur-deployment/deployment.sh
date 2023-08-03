@@ -58,7 +58,7 @@ chmod 0644 "${ssh_aur_public}"
 curl -f https://aur.archlinux.org/ &> /dev/null
 
 # Test the connection to the AUR server.
-ssh -Tvvv -4 aur@aur.archlinux.org
+#ssh -Tvvv -4 aur@aur.archlinux.org
 
 # Generate and set up the AUR repository.
 cd "${user_home}" || exit
