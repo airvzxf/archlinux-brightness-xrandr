@@ -33,6 +33,7 @@ validpgpkeys=(
   63ADA633FE7468630D9BC56175530B8B9F74CF3A
 )
 
+# Test v1.1
 echo "${url}.git?signed#tag=${_tag}"
 echo "${url}.git#tag=${_tag}?signed"
 
