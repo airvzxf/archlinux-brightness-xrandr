@@ -61,9 +61,17 @@ cd "${aur_project}" || exit
 cp -f "${aur_package}"* .
 chown -R "${user}":"${user}" "${deploy_path}"
 
-echo "${password}" | su - "${user}" -c "cd ${deploy_path}; cd ${aur_project}; makepkg --force"
-rm -fR "${package_name}*" pkg src .SRCINFO
-echo "${password}" | su - "${user}" -c "cd ${deploy_path}; cd ${aur_project}; makepkg --printsrcinfo > .SRCINFO"
+pwd
+echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force; cat *.log"
+pwd
+ls -lha .
+ls -lha "${aur_package}"
+ls -lha "${deploy_path}"
+ls -lha "${deploy_path}/${aur_project}"
+rm -fR "*${package_name}*" pkg src .SRCINFO
+pwd
+echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --printsrcinfo > ${deploy_path}/${aur_project}.SRCINFO"
+pwd
 git config user.email "israel.alberto.rv@gmail.com"
 git config user.name "Israel Roldan"
 git add .
