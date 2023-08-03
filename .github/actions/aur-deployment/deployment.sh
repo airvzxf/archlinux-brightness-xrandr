@@ -71,18 +71,15 @@ git clone "ssh://aur@aur.archlinux.org/${aur_project}.git"
 
 cd "${aur_project}" || exit
 cp "${aur_package}.SRCINFO" "${deploy_path}${aur_project}/.SRCINFO"
-ls -lha .
 chown -R "${user}":"${user}" "${deploy_path}"
 
-pwd
-ls -lha .
 git config --global --add safe.directory "${deploy_path}${aur_project}"
 git status
 
 git config user.email "israel.alberto.rv@gmail.com"
 git config user.name "Israel Roldan"
 git add .
-git commit -m "Automatic deployment on $(date) from the official repository in GitHub using CI (Continuous Integration)."
+git commit -m "Automatic deployment on '$(date)' from the official repository in GitHub using CI."
 commit_hash=$(git rev-parse HEAD)
 git push
 

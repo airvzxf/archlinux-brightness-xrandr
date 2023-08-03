@@ -10,6 +10,8 @@ _release_tag=$(
     xargs basename
 )
 echo "_release_tag: ${_release_tag}"
+_tag=$(git rev-parse "v$_release_tag")
+echo "_tag: ${_tag}"
 # Join the name of the Git project and the release tag. It removes the letter 'v' from the tag.
 _full_name="${_git_project}-${_release_tag/v/}"
 echo "_full_name: ${_full_name}"
@@ -23,8 +25,12 @@ arch=(x86_64)
 url="https://github.com/${_git_owner}/${_git_project}"
 license=(GPL3)
 depends=(bash xorg-xrandr grep coreutils sed bc)
-source=("${_git_project}.tar.gz::${url}/archive/refs/tags/${_release_tag}.tar.gz")
+#source=("${_git_project}.tar.gz::${url}/archive/refs/tags/${_release_tag}.tar.gz")
+source=("git+${url}.git?signed#tag=${_tag}")
 md5sums=(SKIP)
+
+echo "${url}.git?signed#tag=${_tag}"
+echo "git+${url}.git?signed#tag=${_tag}"
 
 # PKGBUILD functions
 pkgver() {
