@@ -1,0 +1,7 @@
+brightness-xrandr
+pkg
+src
+*.pkg.tar.zst
+*.tar.gz
+*.zip
+.SRCINFO

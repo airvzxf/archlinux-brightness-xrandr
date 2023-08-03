@@ -1,0 +1,33 @@
+# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
+_name=brightness-xrandr
+_git_project=archlinux-"${_name}"
+pkgname="${_name}"-git
+pkgver=1.0.0
+pkgrel=1.0
+pkgdesc="It changes the brightness using the command 'xrandr'."
+arch=("x86_64")
+url="https://github.com/airvzxf/${_git_project}"
+license=("GPL3")
+depends=("bash" "xorg-xrandr" "grep" "coreutils" "sed" "bc")
+source=("${pkgname}-${pkgver}.tar.gz::git+${url}#branch=main")
+md5sums=("SKIP")
+
+pkgver() {
+  ls -lha "${_name}"
+  cd "${_name}" || return
+  ls -lha .
+  git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+  ls -lha "${srcdir}/${_name}"
+  cd "${srcdir}/${_name}" || return
+  ls -lha .
+  #install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+
+  ls -lha "src"
+  cd "src" || return
+  ls -lha .
+  install -Dm755 "${_name}" "${pkgdir}/usr/bin/${_name}"
+}

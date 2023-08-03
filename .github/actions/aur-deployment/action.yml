@@ -1,0 +1,5 @@
+name: 'AUR Deployment'
+description: 'Deploy from this local source to the AUR servers.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
