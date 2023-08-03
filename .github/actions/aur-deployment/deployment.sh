@@ -1,61 +1,36 @@
 #!/bin/bash
 set -xve
 
+# Custom variables
 package_name="brightness-xrandr"
 aur_project="${package_name}-git"
 password="a"
 
-ssh_path="/root/.ssh/"
-ssh_config="/root/.ssh/config"
-ssh_aur_private="/root/.ssh/aur"
-ssh_aur_public="/root/.ssh/aur.pub"
+# Path variables
+ssh_path="/root/.ssh"
+ssh_config="${ssh_path}/config"
+ssh_aur_private="${ssh_path}/aur"
+ssh_aur_public="${ssh_path}/aur.pub"
 user="immortal"
 user_home="/home/${user}"
-build_path="${user_home}/build/"
 deploy_path="${user_home}/AUR/"
 aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
+# Generate a Linux user.
 useradd -m "${user}"
 echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
 
 # Generate the package with the 'makepkg' command.
-#mkdir -p "${build_path}"
-#cd "${build_path}"
 cd "${aur_package}"
-pwd
-ls -lha .
-
-#cp "${aur_package}PKGBUILD" "${build_path}"
-#pwd
-#ls -lha .
-
-#chown -R "${user}":"${user}" "${build_path}"
 chown -R "${user}":"${user}" "${aur_package}"
-pwd
-ls -lha .
-
 echo "${password}" | su - "${user}" -c "git config --global --add safe.directory ${GITHUB_WORKSPACE}"
-
-#echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --log --force"
 echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force"
-pwd
-ls -lha .
-ls -lha src
-cat brightness-xrandr*.log
-
-#echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --printsrcinfo > .SRCINFO"
 echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --printsrcinfo > .SRCINFO"
-pwd
-ls -lha .
-cat .SRCINFO
 
-
-# Generate and set up the AUR repository.
-
+# Create the AUR SSH keys.
 rm -f "${ssh_config}"
 rm -f "${ssh_aur_private}"
 rm -f "${ssh_aur_public}"
-rm -fR "${deploy_path}"
 
 mkdir -p "${ssh_path}"
 chmod 0700 "${ssh_path}"
@@ -83,9 +58,11 @@ chmod 0644 "${ssh_aur_public}"
 curl -f https://aur.archlinux.org/ &> /dev/null
 
 # Test the connection to the AUR server.
-#ssh -Tv -4 aur@aur.archlinux.org
+ssh -Tvvv -4 aur@aur.archlinux.org
 
+# Generate and set up the AUR repository.
 cd "${user_home}" || exit
+rm -fR "${deploy_path}"
 mkdir -p "${deploy_path}"
 chown -R "${user}":"${user}" "${deploy_path}"
 
@@ -93,20 +70,13 @@ cd "${deploy_path}" || exit
 git clone "ssh://aur@aur.archlinux.org/${aur_project}.git"
 
 cd "${aur_project}" || exit
-#cp -f "${aur_package}"* .
+cp "${aur_package}.SRCINFO" "${deploy_path}${aur_project}/.SRCINFO"
+ls -lha .
 chown -R "${user}":"${user}" "${deploy_path}"
 
 pwd
-#echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force; cat *.log"
-pwd
 ls -lha .
-ls -lha "${aur_package}"
-ls -lha "${deploy_path}"
-ls -lha "${deploy_path}/${aur_project}"
-#rm -fR "*${package_name}*" pkg src .SRCINFO
-pwd
-echo "${password}" | su - "${user}" -c "cp ${aur_package}/.SRCINFO ${deploy_path}/${aur_project}.SRCINFO"
-pwd
+git status
 
 git config user.email "israel.alberto.rv@gmail.com"
 git config user.name "Israel Roldan"
