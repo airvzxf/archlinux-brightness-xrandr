@@ -6,9 +6,9 @@ COPY deployment.sh /app/deployment.sh
 
 RUN ["/bin/chmod", "+x", "/app/deployment.sh"]
 
-RUN pacman -Sy --noconfirm &&\
-    pacman -S pacman --noconfirm &&\
-    pacman-db-upgrade &&\
-    pacman -S --noconfirm base-devel openssh git
+RUN pacman -Sy --noconfirm
+RUN pacman -S pacman --noconfirm
+RUN pacman-db-upgrade
+RUN pacman -S --noconfirm base-devel openssh git
 
 ENTRYPOINT ["/app/deployment.sh"]
