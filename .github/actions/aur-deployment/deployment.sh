@@ -10,27 +10,36 @@ ssh_config="/root/.ssh/config"
 ssh_aur_private="/root/.ssh/aur"
 ssh_aur_public="/root/.ssh/aur.pub"
 user="immortal"
-user_home="/home/${user}/"
-deploy_path="${user_home}AUR/"
+user_home="/home/${user}"
+build_path="${user_home}/build/"
+deploy_path="${user_home}/AUR/"
 aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
+useradd -m "${user}"
+echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
+
 # Generate the package with the 'makepkg' command.
+mkdir -p "${build_path}"
+cd "${build_path}"
 pwd
 ls -lha .
-cd "${aur_package}"
+
+cp -R "${aur_package}" "${build_path}"
+chown -R "${user}":"${user}" "${build_path}"
+
+echo "${password}" | su - "${user}" -c "cp ${build_path}; makepkg --log --force; cat *.log"
 pwd
-ls -lha .
-makepkg --log --force
 ls -lha .
 ls -lha src
 cat "*.log"
-makepkg --printsrcinfo > .SRCINFO
+
+echo "${password}" | su - "${user}" -c "cp ${build_path}; makepkg --printsrcinfo > .SRCINFO; cat .SRCINFO"
+pwd
 ls -lha .
 cat ".SRCINFO"
 
+
 # Generate and set up the AUR repository.
-useradd -m "${user}"
-echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
 
 rm -f "${ssh_config}"
 rm -f "${ssh_aur_private}"
