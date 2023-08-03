@@ -24,7 +24,7 @@ cd "${build_path}"
 pwd
 ls -lha .
 
-cp -R "${aur_package}/*" "${build_path}"
+cp -R "${aur_package}.*" "${build_path}"
 pwd
 ls -lha .
 
