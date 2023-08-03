@@ -1,4 +1,4 @@
-name: CI -> Deploy to AUR
+name: CI ➟ Deploy to AUR
 
 on:
   release:

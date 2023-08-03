@@ -76,6 +76,7 @@ chown -R "${user}":"${user}" "${deploy_path}"
 
 pwd
 ls -lha .
+git config --global --add safe.directory "${deploy_path}${aur_project}"
 git status
 
 git config user.email "israel.alberto.rv@gmail.com"
