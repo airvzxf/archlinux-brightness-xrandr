@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -xve
 
 package_name="brightness-xrandr"
 aur_project="${package_name}-git"

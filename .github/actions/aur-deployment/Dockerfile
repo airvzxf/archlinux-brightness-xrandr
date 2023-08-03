@@ -9,8 +9,8 @@ RUN ["/bin/chmod", "+x", "/app/deployment.sh"]
 RUN pacman -Sy --noconfirm
 RUN pacman -S pacman --noconfirm
 RUN pacman-db-upgrade
-RUN pacman -S --noconfirm base-devel openssh git
+RUN pacman -S --needed --noconfirm base-devel openssh git
 # Install dependencies of the package
-RUN pacman -S --noconfirm bash xorg-xrandr grep coreutils sed bc
+RUN pacman -S --needed --noconfirm bash xorg-xrandr grep coreutils sed bc
 
 ENTRYPOINT ["/app/deployment.sh"]

@@ -13,9 +13,7 @@ source=("${pkgname}-${pkgver}.tar.gz::git+${url}#branch=main")
 md5sums=("SKIP")
 
 pkgver() {
-  ls -lha "${_name}"
   cd "${_name}" || return
-  ls -lha .
   git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
