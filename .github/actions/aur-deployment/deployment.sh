@@ -23,29 +23,33 @@ useradd -m "${user}"
 echo -e "${password}\n${password}" | passwd "${user}" &> /dev/null
 
 # Generate the package with the 'makepkg' command.
-mkdir -p "${build_path}"
-cd "${build_path}"
+#mkdir -p "${build_path}"
+#cd "${build_path}"
+cd "${aur_package}"
 pwd
 ls -lha .
 
-cp "${aur_package}PKGBUILD" "${build_path}"
+#cp "${aur_package}PKGBUILD" "${build_path}"
+#pwd
+#ls -lha .
+
+#chown -R "${user}":"${user}" "${build_path}"
+chown -R "${user}":"${user}" "${aur_package}"
 pwd
 ls -lha .
 
-chown -R "${user}":"${user}" "${build_path}"
-pwd
-ls -lha .
-
-echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --log --force; cat *.log"
+#echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --log --force"
+echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --log --force"
 pwd
 ls -lha .
 ls -lha src
-cat "*.log"
+cat brightness-xrandr-0-1-x86_64-pkgver.log
 
-echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --printsrcinfo > .SRCINFO; cat .SRCINFO"
+#echo "${password}" | su - "${user}" -c "cd ${build_path}; makepkg --printsrcinfo > .SRCINFO"
+echo "${password}" | su - "${user}" -c "cd ${aur_package}; makepkg --printsrcinfo > .SRCINFO"
 pwd
 ls -lha .
-cat ".SRCINFO"
+cat .SRCINFO
 
 
 # Generate and set up the AUR repository.
