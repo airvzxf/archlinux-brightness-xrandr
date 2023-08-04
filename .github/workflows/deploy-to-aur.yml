@@ -11,8 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Update the AUR package and Commit the changes via Git
+      - name: Update the AUR package and commit the changes via Git
         uses: ./.github/actions/aur-deployment/
         env:
-          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ENV_SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+          ENV_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # TODO: Research how to get the tag from this action.
+          ENV_TAG_VERSION: ${{ secrets.SSH_PRIVATE_KEY }}
+          ENV_IS_PRODUCTION: true

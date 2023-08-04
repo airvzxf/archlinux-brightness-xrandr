@@ -1,5 +1,5 @@
 name: 'AUR Deployment'
-description: 'Deploy from this local source to the AUR servers.'
+description: 'Docker: deploy the PKGBUILD file from local source to the AUR servers.'
 runs:
   using: 'docker'
   image: 'Dockerfile'
