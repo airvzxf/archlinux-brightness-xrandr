@@ -134,19 +134,43 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 set -ve
 
 # TODO: Remove all the below commands.
-git describe --long --tags --all || true
-git describe --long || true
-git log -n 3 || true
-git name-rev --tags --name-only "$(git rev-parse HEAD)" || true
-git rev-parse HEAD || true
-git show-ref --tags -d || true
-git show-ref --tags || true
-git status || true
-git symbolic-ref -q --short HEAD || true
-git tag --list || true
-git tag --points-at HEAD || true
-git tag -n || true
-git tag || true
+sleep 2
+ls -lha .
+sleep 2
+ls -lha "${GITHUB_WORKSPACE}"
+sleep 2
+ls -lha "${GITHUB_PATH}"
+sleep 2
+ls -lha "${HOME}"
+sleep 2
+ls -lha "${RUNNER_TEMP}"
+sleep 2
+ls -lha "${GITHUB_STATE}"
+sleep 2
+ls -lha "${GITHUB_ENV}"
+sleep 2
+ls -lha "${GITHUB_STEP_SUMMARY}"
+sleep 2
+sleep 2
+ls -lha "${RUNNER_TOOL_CACHE}"
+sleep 2
+ls -lha "${RUNNER_WORKSPACE}"
+sleep 2
+ls -lha "${GITHUB_OUTPUT}"
+sleep 2
+#git describe --long --tags --all || true
+#git describe --long || true
+#git log -n 3 || true
+#git name-rev --tags --name-only "$(git rev-parse HEAD)" || true
+#git rev-parse HEAD || true
+#git show-ref --tags -d || true
+#git show-ref --tags || true
+#git status || true
+#git symbolic-ref -q --short HEAD || true
+#git tag --list || true
+#git tag --points-at HEAD || true
+#git tag -n || true
+#git tag || true
 
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
@@ -184,8 +208,8 @@ sed --in-place 's|md5sums=(AUTO_PACKAGE_SUMS)|'"${AUTO_PACKAGE_SUMS}"'|g' PKGBUI
 cat PKGBUILD
 
 # Analyze the PKGBUILD file.
-namcap -i PKGBUILD
-namcap -i PKGBUILD | grep --quiet '[WE]:' && {
+namcap --info PKGBUILD
+namcap --info PKGBUILD | grep --quiet '[WE]:' && {
   echo "ERROR: The package builder file (PKGBUILD) needs improvements."
   exit 1
 }
@@ -212,8 +236,8 @@ pwd
 ls -lha .
 
 # Remove the AUR SSH keys.
-rm -f "${ssh_aur_private}"
-rm -f "${ssh_aur_public}"
+rm --force "${ssh_aur_private}"
+rm --force "${ssh_aur_public}"
 
 # Create the SSH directory.
 mkdir --parents "${ssh_path}"
@@ -234,7 +258,7 @@ pwd
 ls -lha .
 
 # If the AUR is not in the configuration file, then added it.
-if ! grep -i "Host aur.archlinux.org" &> /dev/null < "${ssh_config}"; then
+if ! grep --ignore-case "Host aur.archlinux.org" &> /dev/null < "${ssh_config}"; then
   (
     echo "Host aur.archlinux.org"
     echo "  IdentityFile ${ssh_aur_private}"
@@ -263,7 +287,7 @@ ls -lha .
 # --------------------------- #
 
 # Wait until the connection of the Internet is available.
-curl -f https://aur.archlinux.org/ &> /dev/null
+curl --fail https://aur.archlinux.org/ &> /dev/null
 
 # Test the connection to the AUR server.
 #ssh -Tvvv -4 aur@aur.archlinux.org
@@ -275,7 +299,7 @@ exit 0
 
 # Generate and set up the AUR repository.
 cd "${user_home}" || exit 1
-rm -fR "${deploy_path}"
+rm --force --recursive "${deploy_path}"
 mkdir -p "${deploy_path}"
 chown -R "${user}":"${user}" "${deploy_path}"
 
@@ -299,10 +323,10 @@ if [[ "${ENV_IS_PRODUCTION}" = "true" ]]; then
 fi
 
 cd "${user_home}" || exit 1
-rm -f "${ssh_config}"
-rm -f "${ssh_aur_private}"
-rm -f "${ssh_aur_public}"
-rm -fR "${deploy_path}"
+rm --force "${ssh_config}"
+rm --force "${ssh_aur_private}"
+rm --force "${ssh_aur_public}"
+rm --force --recursive "${deploy_path}"
 
 # --------------------- #
 # Environment variables #
