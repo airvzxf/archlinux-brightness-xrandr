@@ -135,6 +135,26 @@ set -ve
 
 # TODO: Remove all the below commands.
 sleep 2
+su --help
+
+sleep 2
+sudo su --login git
+sleep 2
+whoami
+sleep 2
+id
+sleep 2
+cat /etc/passwd
+sleep 2
+ls -lha "${HOME}" || true
+sleep 2
+cd ~
+sleep 2
+pwd
+
+sleep 2
+sudo su -
+sleep 2
 whoami
 sleep 2
 id
@@ -147,7 +167,8 @@ cd ~
 sleep 2
 pwd
 sleep 2
-sudo find / -iname "*.gitconfig*" -type f 2> /dev/null
+
+find / -iname "*.gitconfig*" -type f 2> /dev/null
 sleep 2
 echo "[safe]" | tee -a "${HOME}/.gitconfig"
 sleep 2
