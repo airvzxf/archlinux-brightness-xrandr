@@ -117,14 +117,14 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 
 set -xve
 
+# Go to the user home directory.
+cd "${ENV_USER_HOME}"
+
 # Download the PKGBUILD and build it.
 # ---------
-pwd
-ls -lha .
-whoami
 id
-id "${ENV_USER_ID}"
-cat /etc/passwd
+pwd
+ls -lha
 # ---------
 mkdir --parents "${build_package}"
 cd "${build_package}"
@@ -148,6 +148,9 @@ AUTO_PACKAGE_SUMS="${AUTO_PACKAGE_SUMS// /}"
 AUTO_PACKAGE_SUMS="${AUTO_PACKAGE_SUMS//$'\n'/ }"
 sed --in-place 's|md5sums=(AUTO_PACKAGE_SUMS)|'"${AUTO_PACKAGE_SUMS}"'|g' PKGBUILD
 
+# TODO: Remove this line.
+cat PKGBUILD
+
 namcap -i PKGBUILD
 namcap -i PKGBUILD | grep --quiet '[WE]:' && {
   echo "ERROR: The package builder file (PKGBUILD) needs improvements."
@@ -158,7 +161,6 @@ makepkg --log --check
 makepkg --printsrcinfo > .SRCINFO
 ls -lha .
 
-cat PKGBUILD
 exit 0
 
 # Create the AUR SSH keys.
