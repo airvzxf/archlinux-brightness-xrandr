@@ -135,7 +135,7 @@ set -ve
 
 # TODO: Remove all the below commands.
 sleep 2
-git config --global --add safe.directory /github/workspace
+sudo git config --global --add safe.directory /github/workspace
 sleep 2
 git describe --long --tags --all || true
 sleep 2
