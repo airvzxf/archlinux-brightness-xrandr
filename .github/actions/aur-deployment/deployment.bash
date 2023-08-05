@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-set +xve
+set +xv
+set -e
+
+# -------------- #
+# Bash functions #
+# -------------- #
 
 # Check if the environment variable was set from Docker. Otherwise, exit.
 validate_environment_variable() {
@@ -10,6 +15,10 @@ validate_environment_variable() {
     echo "${1}: ${!1}"
   fi
 }
+
+# --------------------- #
+# Environment variables #
+# --------------------- #
 
 # Environment variables needs to set from Docker.
 validate_environment_variable ENV_GITHUB_OWNER
@@ -93,21 +102,24 @@ echo "AUTO_SOURCE_DOWNLOADED: ${AUTO_SOURCE_DOWNLOADED}"
 # - # Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
 # - # ...
 
-printenv
+#printenv
+
+# ---------------- #
+# Custom variables #
+# ---------------- #
 
 # Custom variables.
 build_package=01-build-package
 
 # Custom variables: auto-generated.
-#github_repository_url="https://github.com/${ENV_GITHUB_OWNER}/${ENV_GITHUB_REPOSITORY}"
+ssh_path="${ENV_USER_HOME}/.ssh"
+ssh_config="${ssh_path}/config"
+ssh_aur_private="${ssh_path}/aur"
+ssh_aur_public="${ssh_path}/aur.pub"
 url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UID}/${AUTO_GITHUB_TAG_VERSION}/archlinux-aur/PKGBUILD"
 #aur_project="${package_name}-git"
 
 # Path variables
-#ssh_path="/root/.ssh"
-#ssh_config="${ssh_path}/config"
-#ssh_aur_private="${ssh_path}/aur"
-#ssh_aur_public="${ssh_path}/aur.pub"
 #user="immortal"
 #user_home="/home/${user}"
 #make_package_path="${user_home}/makepkg/"
@@ -115,21 +127,40 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 #deploy_path="${user_home}/AUR/"
 ##aur_package="${GITHUB_WORKSPACE}/archlinux-aur/"
 
-set -xve
+# ----------- #
+# Basic setup #
+# ----------- #
+
+set -ve
+
+# TODO: Remove all the below commands.
+git describe --long --tags --all || true
+git describe --long || true
+git log -n 3 || true
+git name-rev --tags --name-only "$(git rev-parse HEAD)" || true
+git rev-parse HEAD || true
+git show-ref --tags -d || true
+git show-ref --tags || true
+git status || true
+git symbolic-ref -q --short HEAD || true
+git tag --list || true
+git tag --points-at HEAD || true
+git tag -n || true
+git tag || true
 
 # Go to the user home directory.
-cd "${ENV_USER_HOME}"
+cd "${ENV_USER_HOME}" || exit 1
 
-# Download the PKGBUILD and build it.
-# ---------
-id
-pwd
-ls -lha
-# ---------
+# ----------------- #
+# Build the package #
+# ----------------- #
+
+# Create directory and enter to it.
 mkdir --parents "${build_package}"
-cd "${build_package}"
+cd "${build_package}" || exit 1
 #curl --output PKGBUILD "${url_pkgbuild_file}"
 
+# Replace the variables in the PKGBUILD file.
 sed --in-place 's|ENV_PACKAGE_INFORMATION|'"${ENV_PACKAGE_INFORMATION}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_NAME|'"${ENV_PACKAGE_NAME}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_VERSION|'"${ENV_PACKAGE_VERSION}"'|g' PKGBUILD
@@ -143,38 +174,66 @@ sed --in-place 's|AUTO_GITHUB_URL|'"${AUTO_GITHUB_URL}"'|g' PKGBUILD
 sed --in-place 's|AUTO_PACKAGE_SOURCES|'"${AUTO_PACKAGE_SOURCES}"'|g' PKGBUILD
 sed --in-place 's|AUTO_SOURCE_DOWNLOADED|'"${AUTO_SOURCE_DOWNLOADED}"'|g' PKGBUILD
 
+# Replace the variables in the PKGBUILD file.
 AUTO_PACKAGE_SUMS="$(makepkg --geninteg 2> /dev/null)"
 AUTO_PACKAGE_SUMS="${AUTO_PACKAGE_SUMS// /}"
 AUTO_PACKAGE_SUMS="${AUTO_PACKAGE_SUMS//$'\n'/ }"
 sed --in-place 's|md5sums=(AUTO_PACKAGE_SUMS)|'"${AUTO_PACKAGE_SUMS}"'|g' PKGBUILD
 
-# TODO: Remove this line.
+# Display the PKGBUILD file.
 cat PKGBUILD
 
+# Analyze the PKGBUILD file.
 namcap -i PKGBUILD
 namcap -i PKGBUILD | grep --quiet '[WE]:' && {
   echo "ERROR: The package builder file (PKGBUILD) needs improvements."
   exit 1
 }
 
+# Build the package and check it.
 makepkg --log --check
+
+# Generate the source information file.
 makepkg --printsrcinfo > .SRCINFO
+
+# TODO: Remove this command.
 ls -lha .
 
-exit 0
+# ------------------- #
+# Set up AUR SSH keys #
+# ------------------- #
 
-# Create the AUR SSH keys.
-rm -f "${ssh_config}"
+set -xve
+
+cd "${ENV_USER_HOME}" || exit 1
+
+# TODO: Remove these commands.
+pwd
+ls -lha .
+
+# Remove the AUR SSH keys.
 rm -f "${ssh_aur_private}"
 rm -f "${ssh_aur_public}"
 
-mkdir -p "${ssh_path}"
+# Create the SSH directory.
+mkdir --parents "${ssh_path}"
 chmod 0700 "${ssh_path}"
+cd "${ssh_path}" || exit 1
 
+# TODO: Remove these commands.
+pwd
+ls -lha .
+
+# If the SSH configuration file not exists, it creates one.
 if [ ! -f "${ssh_config}" ]; then
   touch "${ssh_config}"
 fi
 
+# TODO: Remove these commands.
+pwd
+ls -lha .
+
+# If the AUR is not in the configuration file, then added it.
 if ! grep -i "Host aur.archlinux.org" &> /dev/null < "${ssh_config}"; then
   (
     echo "Host aur.archlinux.org"
@@ -184,11 +243,24 @@ if ! grep -i "Host aur.archlinux.org" &> /dev/null < "${ssh_config}"; then
   ) >> "${ssh_config}"
 fi
 
+# TODO: Remove these commands.
+cat "${ssh_config}"
+
+# Added the AUR SSH private key.
 echo "${ENV_SSH_PRIVATE_KEY}" > "${ssh_aur_private}"
 chmod 0600 "${ssh_aur_private}"
 
+# Added the AUR SSH public key.
 echo "${ENV_SSH_PUBLIC_KEY}" > "${ssh_aur_public}"
 chmod 0644 "${ssh_aur_public}"
+
+# TODO: Remove these commands.
+pwd
+ls -lha .
+
+# --------------------------- #
+# Check AUR server connection #
+# --------------------------- #
 
 # Wait until the connection of the Internet is available.
 curl -f https://aur.archlinux.org/ &> /dev/null
@@ -196,16 +268,21 @@ curl -f https://aur.archlinux.org/ &> /dev/null
 # Test the connection to the AUR server.
 #ssh -Tvvv -4 aur@aur.archlinux.org
 
+exit 0
+# --------------------- #
+# Environment variables #
+# --------------------- #
+
 # Generate and set up the AUR repository.
-cd "${user_home}" || exit
+cd "${user_home}" || exit 1
 rm -fR "${deploy_path}"
 mkdir -p "${deploy_path}"
 chown -R "${user}":"${user}" "${deploy_path}"
 
-cd "${deploy_path}" || exit
+cd "${deploy_path}" || exit 1
 git clone "ssh://aur@aur.archlinux.org/${aur_project}.git"
 
-cd "${aur_project}" || exit
+cd "${aur_project}" || exit 1
 cp "${aur_package}.SRCINFO" "${deploy_path}${aur_project}/.SRCINFO"
 chown -R "${user}":"${user}" "${deploy_path}"
 
@@ -217,15 +294,19 @@ git config user.name "Israel Roldan"
 git add .
 git commit -m "Automatic deployment on '$(date)' from the official repository in GitHub using CI."
 commit_hash=$(git rev-parse HEAD)
-if [[ -n ${ENV_IS_PRODUCTION} ]]; then
+if [[ "${ENV_IS_PRODUCTION}" = "true" ]]; then
   git push
 fi
 
-cd "${user_home}" || exit
+cd "${user_home}" || exit 1
 rm -f "${ssh_config}"
 rm -f "${ssh_aur_private}"
 rm -f "${ssh_aur_public}"
 rm -fR "${deploy_path}"
+
+# --------------------- #
+# Environment variables #
+# --------------------- #
 
 echo "# ------------------------------------------------"
 echo "# SUCCESS DEPLOYMENT"
