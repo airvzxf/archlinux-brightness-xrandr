@@ -135,7 +135,11 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 # ----------- #
 
 id
-sudo su --login root -c 'git config --global --add safe.directory '"${GITHUB_WORKSPACE}" || true
+echo "HOME: ${HOME}"
+echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
+#sudo su --login root -c 'git config --global --add safe.directory '"${GITHUB_WORKSPACE}" || true
+sudo su --login root -c 'echo "[safe]" | tee -a "'"${HOME}"'/.gitconfig"' || true
+sudo su --login root -c 'echo "    directory = '"${GITHUB_WORKSPACE}"'" | tee -a "'"${HOME}"'/.gitconfig"' || true
 
 sleep 2
 git describe --long --tags --all || true
@@ -164,6 +168,8 @@ git tag -n || true
 sleep 2
 git tag || true
 sleep 2
+
+exit 0
 
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
