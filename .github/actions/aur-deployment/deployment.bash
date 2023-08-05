@@ -157,8 +157,10 @@ sudo su -c "pwd"
 sleep 2
 sudo su -c "cd /github/workspace; git status"
 
+sleep 2
 find / -iname "*.gitconfig*" -type f 2> /dev/null
 sleep 2
+
 echo "[safe]" | tee -a "${HOME}/.gitconfig"
 sleep 2
 echo "    directory = /github/workspace" | tee -a "${HOME}/.gitconfig"
