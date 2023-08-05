@@ -135,7 +135,15 @@ set -ve
 
 # TODO: Remove all the below commands.
 sleep 2
-sudo git config --global --add safe.directory /github/workspace
+ls -lha /github/workspace
+sleep 2
+git config --global --add safe.directory /github/workspace
+sleep 2
+echo "[safe]" | tee -a /github/workspace/.gitconfig
+sleep 2
+echo "    directory = /github/workspace" | tee -a /github/workspace/.gitconfig
+sleep 2
+cat /github/workspace/.gitconfig
 sleep 2
 git describe --long --tags --all || true
 sleep 2
