@@ -93,7 +93,7 @@ echo "AUTO_SOURCE_DOWNLOADED: ${AUTO_SOURCE_DOWNLOADED}"
 # - # Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
 # - # ...
 
-#printenv
+printenv
 
 # Custom variables.
 build_package=01-build-package
@@ -118,6 +118,14 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 set -xve
 
 # Download the PKGBUILD and build it.
+# ---------
+pwd
+ls -lha .
+whoami
+id
+id "${ENV_USER_ID}"
+cat /etc/passwd
+# ---------
 mkdir --parents "${build_package}"
 cd "${build_package}"
 #curl --output PKGBUILD "${url_pkgbuild_file}"
