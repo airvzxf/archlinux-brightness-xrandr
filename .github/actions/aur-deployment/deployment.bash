@@ -139,14 +139,14 @@ whoami
 sleep 2
 id
 sleep 2
-ls -lha /root
-sleep 2
 ls -lha /
 
 sleep 2
 sudo su --login wolf -c "pwd" || true
 sleep 2
 sudo su --login root -c "pwd" || true
+sleep 2
+sudo su --login root -c "ls -lha /root" || true
 sleep 2
 sudo su --login root -c "cd /github/workspace; git status" || true
 
