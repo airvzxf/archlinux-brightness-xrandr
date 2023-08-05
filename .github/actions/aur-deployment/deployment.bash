@@ -135,39 +135,7 @@ set -ve
 
 # TODO: Remove all the below commands.
 sleep 2
-ls -lha .
-sleep 2
-ls -lha "${GITHUB_WORKSPACE}" || true
-sleep 2
-ls -lha "${GITHUB_PATH}" || true
-sleep 2
-cat "${GITHUB_PATH}" || true
-sleep 2
-ls -lha "${HOME}" || true
-sleep 2
-ls -lha "${RUNNER_TEMP}" || true
-sleep 2
-ls -lha "${GITHUB_STATE}" || true
-sleep 2
-cat "${GITHUB_STATE}" || true
-sleep 2
-ls -lha "${GITHUB_ENV}" || true
-sleep 2
-cat "${GITHUB_ENV}" || true
-sleep 2
-ls -lha "${GITHUB_STEP_SUMMARY}" || true
-sleep 2
-cat "${GITHUB_STEP_SUMMARY}" || true
-sleep 2
-ls -lha "${RUNNER_TOOL_CACHE}" || true
-sleep 2
-ls -lha "${RUNNER_WORKSPACE}" || true
-sleep 2
-ls -lha "${GITHUB_OUTPUT}" || true
-sleep 2
-cat "${GITHUB_OUTPUT}" || true
-
-# TODO: Remove all the below commands.
+git config --global --add safe.directory /github/workspace
 sleep 2
 git describe --long --tags --all || true
 sleep 2
