@@ -133,7 +133,7 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 # ----------- #
 # Basic setup #
 # ----------- #
-# v1.0.2
+# v1.0.3
 
 id
 echo "HOME: ${HOME}"
