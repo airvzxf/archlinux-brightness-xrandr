@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-set +xv
-set -e
+set +x
+set -ev
 
 # -------------- #
 # Bash functions #
@@ -19,6 +19,7 @@ validate_environment_variable() {
 # --------------------- #
 # Environment variables #
 # --------------------- #
+set +v
 
 # Environment variables needs to set from Docker.
 validate_environment_variable ENV_GITHUB_OWNER
@@ -104,6 +105,8 @@ echo "AUTO_SOURCE_DOWNLOADED: ${AUTO_SOURCE_DOWNLOADED}"
 
 #printenv
 
+set -v
+
 # ---------------- #
 # Custom variables #
 # ---------------- #
@@ -131,38 +134,8 @@ url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UI
 # Basic setup #
 # ----------- #
 
-set -ve
-
-# TODO: Remove all the below commands.
-sleep 2
 id
-
-sleep 2
-sudo su --login wolf -c 'cd /github/workspace; git status' || true
-sleep 2
-sudo su --login root -c 'cd /github/workspace; git status' || true
-
-sleep 2
-sudo su --login root -c 'cat /root/.gitconfig' || true
-sleep 2
-sudo su --login root -c 'git config --global --add safe.directory /github/workspace' || true
-sleep 2
-sudo su --login root -c 'cat /root/.gitconfig' || true
-sleep 2
-sudo su --login wolf -c 'cd /github/workspace; git status' || true
-sleep 2
-sudo su --login root -c 'cd /github/workspace; git status' || true
-
-sleep 2
-sudo su --login root -c 'echo "[safe]" | tee -a "'"${HOME}"'/.gitconfig"' || true
-sleep 2
-sudo su --login root -c 'echo "    directory = /github/workspace" | tee -a "'"${HOME}"'/.gitconfig"' || true
-sleep 2
-sudo su --login root -c 'cat /root/.gitconfig' || true
-sleep 2
-sudo su --login wolf -c 'cd /github/workspace; git status' || true
-sleep 2
-sudo su --login root -c 'cd /github/workspace; git status' || true
+sudo su --login root -c 'git config --global --add safe.directory '"${GITHUB_WORKSPACE}" || true
 
 sleep 2
 git describe --long --tags --all || true
@@ -192,7 +165,6 @@ sleep 2
 git tag || true
 sleep 2
 
-exit 0
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
 
@@ -227,6 +199,7 @@ sed --in-place 's|md5sums=(AUTO_PACKAGE_SUMS)|'"${AUTO_PACKAGE_SUMS}"'|g' PKGBUI
 
 # Display the PKGBUILD file.
 cat PKGBUILD
+sleep 2
 
 # Analyze the PKGBUILD file.
 namcap --info PKGBUILD
@@ -242,19 +215,23 @@ makepkg --log --check
 makepkg --printsrcinfo > .SRCINFO
 
 # TODO: Remove this command.
+sleep 2
 ls -lha .
+sleep 2
 
 # ------------------- #
 # Set up AUR SSH keys #
 # ------------------- #
 
-set -xve
+set -x
 
 cd "${ENV_USER_HOME}" || exit 1
 
 # TODO: Remove these commands.
 pwd
+sleep 2
 ls -lha .
+sleep 2
 
 # Remove the AUR SSH keys.
 rm --force "${ssh_aur_private}"
@@ -267,7 +244,9 @@ cd "${ssh_path}" || exit 1
 
 # TODO: Remove these commands.
 pwd
+sleep 2
 ls -lha .
+sleep 2
 
 # If the SSH configuration file not exists, it creates one.
 if [ ! -f "${ssh_config}" ]; then
@@ -276,7 +255,9 @@ fi
 
 # TODO: Remove these commands.
 pwd
+sleep 2
 ls -lha .
+sleep 2
 
 # If the AUR is not in the configuration file, then added it.
 if ! grep --ignore-case "Host aur.archlinux.org" &> /dev/null < "${ssh_config}"; then
@@ -288,8 +269,10 @@ if ! grep --ignore-case "Host aur.archlinux.org" &> /dev/null < "${ssh_config}";
   ) >> "${ssh_config}"
 fi
 
-# TODO: Remove these commands.
+# Display the SSH configuration file.
+sleep 2
 cat "${ssh_config}"
+sleep 2
 
 # Added the AUR SSH private key.
 echo "${ENV_SSH_PRIVATE_KEY}" > "${ssh_aur_private}"
@@ -300,8 +283,13 @@ echo "${ENV_SSH_PUBLIC_KEY}" > "${ssh_aur_public}"
 chmod 0644 "${ssh_aur_public}"
 
 # TODO: Remove these commands.
+sleep 2
 pwd
+sleep 2
 ls -lha .
+sleep 2
+cat *
+sleep 2
 
 # --------------------------- #
 # Check AUR server connection #
@@ -309,15 +297,16 @@ ls -lha .
 
 # Wait until the connection of the Internet is available.
 curl --fail https://aur.archlinux.org/ &> /dev/null
+sleep 2
 
 # Test the connection to the AUR server.
 #ssh -Tvvv -4 aur@aur.archlinux.org
 
-exit 0
-# --------------------- #
-# Environment variables #
-# --------------------- #
+# ----------------------------------------- #
+# Clone AUR repository and push the package #
+# ----------------------------------------- #
 
+exit 0
 # Generate and set up the AUR repository.
 cd "${user_home}" || exit 1
 rm --force --recursive "${deploy_path}"
@@ -349,12 +338,9 @@ rm --force "${ssh_aur_private}"
 rm --force "${ssh_aur_public}"
 rm --force --recursive "${deploy_path}"
 
-# --------------------- #
-# Environment variables #
-# --------------------- #
+# ----------------------- #
+# Finished the deployment #
+# ----------------------- #
 
-echo "# ------------------------------------------------"
-echo "# SUCCESS DEPLOYMENT"
-echo "# ------------------------------------------------"
-echo "Review this link to check the commit in the AUR"
-echo "https://aur.archlinux.org/cgit/aur.git/commit/?h=${aur_project}&id=${commit_hash}"
+# Review this link to check the commit in the AUR
+# https://aur.archlinux.org/cgit/aur.git/commit/?h=${aur_project}&id=${commit_hash}
