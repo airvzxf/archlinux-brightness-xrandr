@@ -1,39 +1,23 @@
-# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
+ENV_PACKAGE_INFORMATION
 
-# Custom variables
-_name='brightness-xrandr'
-_version='1.0.0'
-_git_owner='airvzxf'
-_git_repository="archlinux-${_name}"
-
-# Custom variables | Auto generated
-_downloaded_name="${_git_repository}-${_version}"
-
-# PKGBUILD variables
-pkgname="${_name}"
-pkgver="${_version}"
+# PKGBUILD variables.
+pkgname=ENV_PACKAGE_NAME
+pkgver=ENV_PACKAGE_VERSION
 pkgrel=1
-pkgdesc="It changes the brightness using the command 'xrandr'."
-arch=(x86_64)
-url="https://github.com/${_git_owner}/${_git_repository}"
-license=(GPL3)
-depends=(bash
-  xorg-xrandr
-  grep
-  coreutils
-  sed
-  bc)
-source=("${_downloaded_name}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz")
-md5sums=(SKIP)
-# PGP: Israel Roldan (airvzxf) <israel.alberto.rv@gmail.com>, https://github.com/airvzxf.gpg
-validpgpkeys=('63ADA633FE7468630D9BC56175530B8B9F74CF3A')
+pkgdesc='ENV_PACKAGE_DESCRIPTION'
+arch=(ENV_PACKAGE_ARCHITECTURES)
+url='AUTO_GITHUB_URL'
+license=(ENV_PACKAGE_LICENSES)
+depends=(ENV_PACKAGE_DEPENDENCIES)
+source=(AUTO_PACKAGE_SOURCES)
+md5sums=(AUTO_PACKAGE_SUMS)
+validpgpkeys=(ENV_PACKAGE_PGPS)
 
-# PKGBUILD functions
+# PKGBUILD functions.
 package() {
-  cd "${srcdir}/${_downloaded_name}" || return
-  #install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-  install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+  cd "${srcdir}/AUTO_SOURCE_DOWNLOADED" || return
+  install -Dm644 README.md "${pkgdir}/usr/share/doc/ENV_PACKAGE_NAME/README.md"
 
   cd "src" || return
-  install -Dm755 "${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm755 "ENV_PACKAGE_NAME" "${pkgdir}/usr/bin/ENV_PACKAGE_NAME"
 }

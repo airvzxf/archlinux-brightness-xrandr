@@ -16,6 +16,20 @@ jobs:
         env:
           ENV_SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
           ENV_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          # TODO: Research how to get the tag from this action.
-          ENV_TAG_VERSION: ${{ secrets.SSH_PRIVATE_KEY }}
-          ENV_IS_PRODUCTION: true
+          # TODO: Research how to get the GitHub owner from this action.
+          # TODO: Research how to get the GitHub repository from this action.
+          # TODO: Research how to get the GitHub tag version from this action.
+          ENV_GITHUB_OWNER: 'airvzxf'
+          ENV_GITHUB_REPOSITORY: 'archlinux-brightness-xrandr'
+          ENV_GITHUB_TAG_VERSION_PREFIX: 'v'
+          ENV_PACKAGE_ARCHITECTURES: 'x86_64'
+          ENV_PACKAGE_DEPENDENCIES: 'bash xorg-xrandr grep coreutils sed bc'
+          ENV_PACKAGE_DESCRIPTION: 'Changes the brightness using the command xrandr. Furthermore, adding multiple options.'
+          ENV_PACKAGE_INFORMATION: '# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>'
+          ENV_PACKAGE_LICENSES: 'GPL3'
+          ENV_PACKAGE_NAME: 'brightness-xrandr'
+          ENV_PACKAGE_PGPS: '63ADA633FE7468630D9BC56175530B8B9F74CF3A'
+          ENV_PACKAGE_RELEASE: '1'
+          ENV_PACKAGE_SOURCES: ''
+          ENV_PACKAGE_SOURCE_GITHUB: 'true'
+          ENV_PACKAGE_VERSION: '1.0.0'
