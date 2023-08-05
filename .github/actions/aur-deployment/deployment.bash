@@ -137,8 +137,6 @@ set -ve
 sleep 2
 ls -lha /github/workspace
 sleep 2
-git config --global --add safe.directory /github/workspace
-sleep 2
 echo "[safe]" | tee -a /github/workspace/.gitconfig
 sleep 2
 echo "    directory = /github/workspace" | tee -a /github/workspace/.gitconfig
