@@ -141,15 +141,23 @@ ls -lha "${GITHUB_WORKSPACE}" || true
 sleep 2
 ls -lha "${GITHUB_PATH}" || true
 sleep 2
+cat "${GITHUB_PATH}" || true
+sleep 2
 ls -lha "${HOME}" || true
 sleep 2
 ls -lha "${RUNNER_TEMP}" || true
 sleep 2
 ls -lha "${GITHUB_STATE}" || true
 sleep 2
+cat "${GITHUB_STATE}" || true
+sleep 2
 ls -lha "${GITHUB_ENV}" || true
 sleep 2
+cat "${GITHUB_ENV}" || true
+sleep 2
 ls -lha "${GITHUB_STEP_SUMMARY}" || true
+sleep 2
+cat "${GITHUB_STEP_SUMMARY}" || true
 sleep 2
 ls -lha "${RUNNER_TOOL_CACHE}" || true
 sleep 2
@@ -157,19 +165,36 @@ ls -lha "${RUNNER_WORKSPACE}" || true
 sleep 2
 ls -lha "${GITHUB_OUTPUT}" || true
 sleep 2
-#git describe --long --tags --all || true
-#git describe --long || true
-#git log -n 3 || true
-#git name-rev --tags --name-only "$(git rev-parse HEAD)" || true
-#git rev-parse HEAD || true
-#git show-ref --tags -d || true
-#git show-ref --tags || true
-#git status || true
-#git symbolic-ref -q --short HEAD || true
-#git tag --list || true
-#git tag --points-at HEAD || true
-#git tag -n || true
-#git tag || true
+cat "${GITHUB_OUTPUT}" || true
+
+# TODO: Remove all the below commands.
+sleep 2
+git describe --long --tags --all || true
+sleep 2
+git describe --long || true
+sleep 2
+git log -n 3 || true
+sleep 2
+git name-rev --tags --name-only "$(git rev-parse HEAD)" || true
+sleep 2
+git rev-parse HEAD || true
+sleep 2
+git show-ref --tags -d || true
+sleep 2
+git show-ref --tags || true
+sleep 2
+git status || true
+sleep 2
+git symbolic-ref -q --short HEAD || true
+sleep 2
+git tag --list || true
+sleep 2
+git tag --points-at HEAD || true
+sleep 2
+git tag -n || true
+sleep 2
+git tag || true
+sleep 2
 
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
