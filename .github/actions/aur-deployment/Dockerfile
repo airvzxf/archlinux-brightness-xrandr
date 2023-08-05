@@ -10,6 +10,9 @@ RUN pacman -Syu --needed --noconfirm base-devel openssh git namcap
 # Install dependencies of the AUR package.
 RUN pacman -Syu --needed --noconfirm bash xorg-xrandr grep coreutils sed bc
 
+# Add as a safe the GitHub directory.
+RUN git config --global --add safe.directory /github/workspace
+
 # Custom variables.
 ENV ENV_USER_ID=wolf
 ENV ENV_USER_GROUP=animals

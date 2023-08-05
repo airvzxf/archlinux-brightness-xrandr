@@ -135,36 +135,29 @@ set -ve
 
 # TODO: Remove all the below commands.
 sleep 2
-sudo su --login root
-sleep 2
 whoami
 sleep 2
 id
 sleep 2
-echo "HOME: ${HOME}"
+ls -lha /root
 sleep 2
-ls -lha "${HOME}" || true
-sleep 2
-cd ~
-sleep 2
-pwd
+ls -lha /
 
-sleep 2
-sudo su --login git -c "pwd" || true
-sleep 2
-sudo su --login root -c "pwd" || true
 sleep 2
 sudo su --login wolf -c "pwd" || true
 sleep 2
-sudo su --login root -c "cd /github/workspace; git status"
+sudo su --login root -c "pwd" || true
+sleep 2
+sudo su --login root -c "cd /github/workspace; git status" || true
 
 sleep 2
-find / -iname "*.gitconfig*" -type f 2> /dev/null
+sudo su --login root -c "find / -iname '*gitconfig*' -type f 2> /dev/null" || true
 
+exit 0
 sleep 2
-echo "[safe]" | tee -a "${HOME}/.gitconfig"
+echo "[safe]" | tee -a "${HOME}/.gitconfig" || true
 sleep 2
-echo "    directory = /github/workspace" | tee -a "${HOME}/.gitconfig"
+echo "    directory = /github/workspace" | tee -a "${HOME}/.gitconfig" || true
 sleep 2
 cat /github/workspace/.gitconfig
 sleep 2
