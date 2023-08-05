@@ -135,31 +135,35 @@ set -ve
 
 # TODO: Remove all the below commands.
 sleep 2
-whoami
-sleep 2
 id
-sleep 2
-ls -lha /
 
 sleep 2
-sudo su --login wolf -c "pwd" || true
+sudo su --login wolf -c 'cd /github/workspace; git status' || true
 sleep 2
-sudo su --login root -c "pwd" || true
-sleep 2
-sudo su --login root -c "ls -lha /root" || true
-sleep 2
-sudo su --login root -c "cd /github/workspace; git status" || true
+sudo su --login root -c 'cd /github/workspace; git status' || true
 
 sleep 2
-sudo su --login root -c "find / -iname '*gitconfig*' -type f 2> /dev/null" || true
+sudo su --login root -c 'cat /root/.gitconfig' || true
+sleep 2
+sudo su --login root -c 'git config --global --add safe.directory /github/workspace' || true
+sleep 2
+sudo su --login root -c 'cat /root/.gitconfig' || true
+sleep 2
+sudo su --login wolf -c 'cd /github/workspace; git status' || true
+sleep 2
+sudo su --login root -c 'cd /github/workspace; git status' || true
 
-exit 0
 sleep 2
-echo "[safe]" | tee -a "${HOME}/.gitconfig" || true
+sudo su --login root -c 'echo "[safe]" | tee -a "'"${HOME}"'/.gitconfig"' || true
 sleep 2
-echo "    directory = /github/workspace" | tee -a "${HOME}/.gitconfig" || true
+sudo su --login root -c 'echo "    directory = /github/workspace" | tee -a "'"${HOME}"'/.gitconfig"' || true
 sleep 2
-cat /github/workspace/.gitconfig
+sudo su --login root -c 'cat /root/.gitconfig' || true
+sleep 2
+sudo su --login wolf -c 'cd /github/workspace; git status' || true
+sleep 2
+sudo su --login root -c 'cd /github/workspace; git status' || true
+
 sleep 2
 git describe --long --tags --all || true
 sleep 2
@@ -188,6 +192,7 @@ sleep 2
 git tag || true
 sleep 2
 
+exit 0
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
 
