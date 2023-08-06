@@ -270,7 +270,8 @@ if [[ ${ENV_IS_PRODUCTION} == "true" ]]; then
   echo "Please review this link to validate the commit in AUR."
   echo "https://aur.archlinux.org/cgit/aur.git/commit/?h=${ENV_PACKAGE_NAME}&id=${commit_hash}"
 else
-  echo "WARNING: The production flag (ENV_IS_PRODUCTION) is not true."
-  echo "         For this reason, the deployment to the AUR server was not achieved."
+  sleep 2
+  echo "ERROR: The production flag (ENV_IS_PRODUCTION) is not true."
+  echo "       For this reason, the deployment to the AUR server was not achieved."
   exit 1
 fi
