@@ -89,7 +89,7 @@ git checkout "${BRANCH_NAME}"
 ```
 
 - Navigate to [archlinux-brightness-xrandr][brightness xrandr GitHub project] and create a branch by clicking the branch
-  button. Or just click this [link to create it automatically][brightness xrandr GitHub project].
+  button. Or just click this [link to create it automatically][fork brightness xrandr project].
 - On your computer, clone your forked project: `git clone https://github.com/XxXxXx/archlinux-brightness-xrandr.git`.
 - Go inside the repository folder: `cd archlinux-brightness-xrandr`.
 - Configure Git to sync your fork with the upstream repository.
@@ -100,7 +100,7 @@ git checkout "${BRANCH_NAME}"
     - `git checkout BRANCH_NAME`.
 - Make your changes and commit them.
     - `git add .`.
-    - `git commit --message= "Brief description of the changes"`.
+    - `git commit --message "Brief description of the changes"`.
 - Push your changes to our repository on the GitHub server. The first time you need to specify the upstream, the next
   time use basic push.
     - First time: `git push --set-upstream origin BRANCH_NAME`.
@@ -148,3 +148,5 @@ git checkout "${BRANCH_NAME}"
 [fork a repository]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on
 
 [brightness xrandr GitHub project]: https://github.com/airvzxf/archlinux-brightness-xrandr
+
+[fork brightness xrandr project]: https://github.com/airvzxf/archlinux-brightness-xrandr/fork
