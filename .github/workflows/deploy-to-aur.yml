@@ -30,6 +30,6 @@ jobs:
           ENV_PACKAGE_SOURCES: ''
           ENV_PACKAGE_SOURCE_GITHUB: 'true'
           # TODO: Research how to get the GitHub tag version from this action.
-          ENV_PACKAGE_VERSION: ${{ github.event.release.tag_name//v/ }}
+          ENV_PACKAGE_VERSION: ${{ github.event.release.tag_name }}
           ENV_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ENV_SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
