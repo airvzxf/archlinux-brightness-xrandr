@@ -16,6 +16,7 @@ jobs:
         env:
           ENV_GITHUB_OWNER: ${{ github.repository_owner }}
           ENV_GITHUB_REPOSITORY: ${{ github.event.repository.name }}
+          ENV_GITHUB_TAG_VERSION: ${{ github.event.release.tag_name }}
           ENV_GITHUB_TAG_VERSION_PREFIX: 'v'
           ENV_GIT_USER_EMAIL: 'israel.alberto.rv@gmail.com'
           ENV_GIT_USER_NAME: 'Israel Roldan'
@@ -29,7 +30,5 @@ jobs:
           ENV_PACKAGE_RELEASE: '1'
           ENV_PACKAGE_SOURCES: ''
           ENV_PACKAGE_SOURCE_GITHUB: 'true'
-          # TODO: Research how to get the GitHub tag version from this action.
-          ENV_PACKAGE_VERSION: ${{ github.event.release.tag_name }}
           ENV_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ENV_SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}

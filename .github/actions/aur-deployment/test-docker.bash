@@ -18,6 +18,7 @@ docker build --tag "${TAG}" --progress "${DOCKER_PROGRESS}" .
 docker run --tty --interactive --rm \
   --env ENV_GITHUB_OWNER='airvzxf' \
   --env ENV_GITHUB_REPOSITORY='archlinux-brightness-xrandr' \
+  --env ENV_GITHUB_TAG_VERSION='v1.0.0' \
   --env ENV_GITHUB_TAG_VERSION_PREFIX='v' \
   --env ENV_GITHUB_TAG_VERSION_SUFFIX='' \
   --env ENV_GIT_USER_EMAIL='israel.alberto.rv@gmail.com' \
@@ -32,7 +33,6 @@ docker run --tty --interactive --rm \
   --env ENV_PACKAGE_RELEASE='1' \
   --env ENV_PACKAGE_SOURCES='' \
   --env ENV_PACKAGE_SOURCE_GITHUB='true' \
-  --env ENV_PACKAGE_VERSION='1.0.0' \
   --env ENV_SSH_PRIVATE_KEY='bar' \
   --env ENV_SSH_PUBLIC_KEY='foo' \
   --name "${NAME}-$(date +%Y%m%d-%H%M%S-%N)" \
