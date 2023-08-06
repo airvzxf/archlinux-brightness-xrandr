@@ -13,9 +13,8 @@ docker build --tag "${TAG}" --progress "${DOCKER_PROGRESS}" .
 #docker build --tag "${TAG}" --progress "${DOCKER_PROGRESS}" --no-cache=true .
 
 # Run the image and create a container.
-# Add this option to replace the entrypoint with a bash terminal.
-#  --entrypoint /bin/bash \
 docker run --tty --interactive --rm \
+  --env ENV_IS_PRODUCTION='false' \
   --env ENV_GITHUB_OWNER='airvzxf' \
   --env ENV_GITHUB_REPOSITORY='archlinux-brightness-xrandr' \
   --env ENV_GITHUB_TAG_VERSION='v1.0.0' \
@@ -24,12 +23,22 @@ docker run --tty --interactive --rm \
   --env ENV_GIT_USER_EMAIL='israel.alberto.rv@gmail.com' \
   --env ENV_GIT_USER_NAME='Israel Roldan' \
   --env ENV_PACKAGE_ARCHITECTURES='x86_64' \
-  --env ENV_PACKAGE_DEPENDENCIES='bash xorg-xrandr grep coreutils sed bc' \
+  --env ENV_PACKAGE_DEPENDENCIES='
+  bash
+  xorg-xrandr
+  grep
+  coreutils
+  sed
+  bc
+' \
   --env ENV_PACKAGE_DESCRIPTION='Changes the brightness using the command xrandr. Furthermore, adding multiple options.' \
-  --env ENV_PACKAGE_INFORMATION='# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>' \
+  --env ENV_PACKAGE_INFORMATION='# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
+# Contributor: Israel Roldan <israel.alberto.rv@gmail.com>' \
   --env ENV_PACKAGE_LICENSES='GPL3' \
   --env ENV_PACKAGE_NAME='brightness-xrandr' \
-  --env ENV_PACKAGE_PGPS='63ADA633FE7468630D9BC56175530B8B9F74CF3A' \
+  --env ENV_PACKAGE_PGPS='
+  63ADA633FE7468630D9BC56175530B8B9F74CF3A # PGP: Israel Roldan (airvzxf) <israel.alberto.rv@gmail.com>, https://github.com/airvzxf.gpg
+' \
   --env ENV_PACKAGE_RELEASE='1' \
   --env ENV_PACKAGE_SOURCES='' \
   --env ENV_PACKAGE_SOURCE_GITHUB='true' \

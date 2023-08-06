@@ -14,6 +14,7 @@ jobs:
       - name: Update the AUR package and commit the changes via Git
         uses: ./.github/actions/aur-deployment/
         env:
+          ENV_IS_PRODUCTION: 'false'
           ENV_GITHUB_OWNER: ${{ github.repository_owner }}
           ENV_GITHUB_REPOSITORY: ${{ github.event.repository.name }}
           ENV_GITHUB_TAG_VERSION: ${{ github.event.release.tag_name }}
@@ -21,12 +22,22 @@ jobs:
           ENV_GIT_USER_EMAIL: 'israel.alberto.rv@gmail.com'
           ENV_GIT_USER_NAME: 'Israel Roldan'
           ENV_PACKAGE_ARCHITECTURES: 'x86_64'
-          ENV_PACKAGE_DEPENDENCIES: 'bash xorg-xrandr grep coreutils sed bc'
+          ENV_PACKAGE_DEPENDENCIES: '
+  bash
+  xorg-xrandr
+  grep
+  coreutils
+  sed
+  bc
+'
           ENV_PACKAGE_DESCRIPTION: 'Changes the brightness using the command xrandr. Furthermore, adding multiple options.'
-          ENV_PACKAGE_INFORMATION: '# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>'
+          ENV_PACKAGE_INFORMATION: '# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
+# Contributor: Israel Roldan <israel.alberto.rv@gmail.com>'
           ENV_PACKAGE_LICENSES: 'GPL3'
           ENV_PACKAGE_NAME: 'brightness-xrandr'
-          ENV_PACKAGE_PGPS: '63ADA633FE7468630D9BC56175530B8B9F74CF3A'
+          ENV_PACKAGE_PGPS: '
+  63ADA633FE7468630D9BC56175530B8B9F74CF3A # PGP: Israel Roldan (airvzxf) <israel.alberto.rv@gmail.com>, https://github.com/airvzxf.gpg
+'
           ENV_PACKAGE_RELEASE: '1'
           ENV_PACKAGE_SOURCES: ''
           ENV_PACKAGE_SOURCE_GITHUB: 'true'

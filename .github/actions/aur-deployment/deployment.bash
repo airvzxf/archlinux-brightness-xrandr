@@ -74,38 +74,6 @@ echo "AUTO_PACKAGE_SOURCES_GIT: ${AUTO_PACKAGE_SOURCES_GIT}"
 echo "AUTO_PACKAGE_VERSION: ${AUTO_PACKAGE_VERSION}"
 echo "AUTO_SOURCE_DOWNLOADED: ${AUTO_SOURCE_DOWNLOADED}"
 
-# TODO: Figure out a solution for send multiple values in the Environment variables.
-# ENV_PACKAGE_ARCHITECTURES
-# - x86_64
-# - ...
-# ENV_PACKAGE_LICENSES
-# - GPL3
-# - ...
-# ENV_PACKAGE_DEPENDENCIES
-# - bash
-# - xorg-xrandr
-# - grep
-# - coreutils
-# - sed
-# - bc
-# AUTO_PACKAGE_SOURCES
-# - 'ENV_GITHUB_REPOSITORY-ENV_PACKAGE_VERSION.tar.gz::AUTO_GITHUB_URL/archive/refs/tags/ENV_GITHUB_TAG_VERSION_PREFIX.tar.gz'
-# - ...
-# ENV_PACKAGE_SOURCES
-# - 'hello.bash'
-# - ...
-# AUTO_PACKAGE_SUMS
-# - SKIP
-# - ...
-# ENV_PACKAGE_PGPS
-# - 63ADA633FE7468630D9BC56175530B8B9F74CF3A # PGP: Israel Roldan (airvzxf) <israel.alberto.rv@gmail.com>, https://github.com/airvzxf.gpg
-# - ...
-# AUTO_SOURCE_DOWNLOADED
-# - ENV_GITHUB_REPOSITORY-ENV_PACKAGE_VERSION
-# ENV_PACKAGE_INFORMATION
-# - # Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
-# - # ...
-
 set -v
 
 # ---------------- #
@@ -146,20 +114,21 @@ mkdir --parents "${ENV_BUILD_PACKAGE}"
 cd "${ENV_BUILD_PACKAGE}" || exit 1
 
 # Replace the variables in the PKGBUILD file.
-sed --in-place 's|ENV_PACKAGE_INFORMATION|'"${ENV_PACKAGE_INFORMATION}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_INFORMATION|'"${ENV_PACKAGE_INFORMATION//$'\n'/'\n'}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_NAME|'"${ENV_PACKAGE_NAME}"'|g' PKGBUILD
 sed --in-place 's|AUTO_PACKAGE_VERSION|'"${AUTO_PACKAGE_VERSION}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_RELEASE|'"${ENV_PACKAGE_RELEASE}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_DESCRIPTION|'"${ENV_PACKAGE_DESCRIPTION}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_ARCHITECTURES|'"${ENV_PACKAGE_ARCHITECTURES}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_LICENSES|'"${ENV_PACKAGE_LICENSES}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_DEPENDENCIES|'"${ENV_PACKAGE_DEPENDENCIES}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_PGPS|'"${ENV_PACKAGE_PGPS}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_ARCHITECTURES|'"${ENV_PACKAGE_ARCHITECTURES//$'\n'/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_LICENSES|'"${ENV_PACKAGE_LICENSES//$'\n'/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_DEPENDENCIES|'"${ENV_PACKAGE_DEPENDENCIES//$'\n'/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_PGPS|'"${ENV_PACKAGE_PGPS//$'\n'/'\n'}"'|g' PKGBUILD
 sed --in-place 's|AUTO_GITHUB_URL|'"${AUTO_GITHUB_URL}"'|g' PKGBUILD
-sed --in-place 's|AUTO_PACKAGE_SOURCES|'"${AUTO_PACKAGE_SOURCES}"'|g' PKGBUILD
+sed --in-place 's|AUTO_PACKAGE_SOURCES|'"${AUTO_PACKAGE_SOURCES//$'\n'/'\n'}"'|g' PKGBUILD
 sed --in-place 's|AUTO_SOURCE_DOWNLOADED|'"${AUTO_SOURCE_DOWNLOADED}"'|g' PKGBUILD
 
 # Replace the variable authentication sums in the PKGBUILD file.
+makepkg --geninteg
 AUTO_PACKAGE_SUMS="$(makepkg --geninteg 2> /dev/null)"
 AUTO_PACKAGE_SUMS="${AUTO_PACKAGE_SUMS// /}"
 AUTO_PACKAGE_SUMS="${AUTO_PACKAGE_SUMS//$'\n'/ }"
@@ -169,7 +138,6 @@ sed --in-place 's|md5sums=(AUTO_PACKAGE_SUMS)|'"${AUTO_PACKAGE_SUMS}"'|g' PKGBUI
 cat PKGBUILD
 
 # Analyze the PKGBUILD file.
-# TODO: Add myself as a contributor.
 namcap --info PKGBUILD
 namcap --info PKGBUILD | grep --quiet '[WE]:' && {
   echo "ERROR: The package builder file (PKGBUILD) needs improvements."
@@ -182,6 +150,9 @@ namcap --info PKGBUILD | grep --quiet '[WE]:' && {
 
 # Generate the source information file.
 makepkg --printsrcinfo > .SRCINFO
+
+# Display the SRCINFO file.
+cat ".SRCINFO"
 
 # ------------------- #
 # Set up AUR SSH keys #
@@ -260,8 +231,8 @@ cp "${ENV_USER_HOME}/${ENV_BUILD_PACKAGE}/PKGBUILD" .
 cp "${ENV_USER_HOME}/${ENV_BUILD_PACKAGE}/.SRCINFO" .
 
 # Set up the credentials of Git.
-git config user.email "israel.alberto.rv@gmail.com"
-git config user.name "Israel Roldan"
+git config user.email "${ENV_GIT_USER_EMAIL}"
+git config user.name "${ENV_GIT_USER_NAME}"
 git config --list
 
 # Commit and push the changes to the AUR repository in the official server.
