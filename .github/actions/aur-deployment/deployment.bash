@@ -105,8 +105,6 @@ echo "AUTO_SOURCE_DOWNLOADED: ${AUTO_SOURCE_DOWNLOADED}"
 # - # Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>
 # - # ...
 
-#printenv
-
 set -v
 
 # ---------------- #
@@ -121,23 +119,19 @@ ssh_path="${ENV_USER_HOME}/.ssh"
 ssh_config="${ssh_path}/config"
 ssh_aur_private="${ssh_path}/aur"
 ssh_aur_public="${ssh_path}/aur.pub"
-#url_pkgbuild_file="https://raw.githubusercontent.com/${AUTO_GITHUB_REPOSITORY_UID}/${AUTO_GITHUB_TAG_VERSION}/archlinux-aur/PKGBUILD"
-#aur_project="${package_name}-git"
-#deploy_path="${user_home}/AUR/"
 
 # ----------- #
 # Basic setup #
 # ----------- #
 
 # If the environment variable GitHub workspace has a value, then it add this directory as a safe.
-# TODO: Remove these comments below. I want to check if the git status works in the AUR repository
-#if [[ -n ${GITHUB_WORKSPACE} ]]; then
-#  echo "HOME: ${HOME}"
-#  echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
-#  sudo su --login root -c 'echo "[safe]" | tee -a "'"${HOME}"'/.gitconfig"' || true
-#  sudo su --login root -c 'echo "    directory = '"${GITHUB_WORKSPACE}"'" | tee -a "'"${HOME}"'/.gitconfig"' || true
-#fi
-git status || true
+if [[ -n ${GITHUB_WORKSPACE} ]]; then
+  echo "HOME: ${HOME}"
+  echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
+  sudo su --login root -c 'echo "[safe]" | tee -a "'"${HOME}"'/.gitconfig"' || true
+  sudo su --login root -c 'echo "    directory = '"${GITHUB_WORKSPACE}"'" | tee -a "'"${HOME}"'/.gitconfig"' || true
+  git status
+fi
 
 # ----------------- #
 # Build the package #
@@ -149,7 +143,6 @@ cd "${ENV_USER_HOME}" || exit 1
 # Create the build directory and enter to it.
 mkdir --parents "${ENV_BUILD_PACKAGE}"
 cd "${ENV_BUILD_PACKAGE}" || exit 1
-#curl --output PKGBUILD "${url_pkgbuild_file}"
 
 # Replace the variables in the PKGBUILD file.
 sed --in-place 's|ENV_PACKAGE_INFORMATION|'"${ENV_PACKAGE_INFORMATION}"'|g' PKGBUILD
@@ -175,6 +168,7 @@ sed --in-place 's|md5sums=(AUTO_PACKAGE_SUMS)|'"${AUTO_PACKAGE_SUMS}"'|g' PKGBUI
 cat PKGBUILD
 
 # Analyze the PKGBUILD file.
+# TODO: Add myself as a contributor.
 namcap --info PKGBUILD
 namcap --info PKGBUILD | grep --quiet '[WE]:' && {
   echo "ERROR: The package builder file (PKGBUILD) needs improvements."
@@ -192,8 +186,6 @@ makepkg --printsrcinfo > .SRCINFO
 # Set up AUR SSH keys #
 # ------------------- #
 
-set -x
-
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
 
@@ -205,15 +197,6 @@ rm --force "${ssh_aur_public}"
 mkdir --parents "${ssh_path}"
 chmod 0700 "${ssh_path}"
 cd "${ssh_path}" || exit 1
-
-# TODO: Remove these commands.
-sleep 2
-ls -lhaR . || true
-sleep 2
-cat .ssh/known_hosts || true
-sleep 2
-cat .ssh/known_hosts.old || true
-sleep 2
 
 # If the SSH configuration file not exists, it creates one.
 if [ ! -f "${ssh_config}" ]; then
@@ -238,15 +221,6 @@ chmod 0600 "${ssh_aur_private}"
 echo "${ENV_SSH_PUBLIC_KEY}" > "${ssh_aur_public}"
 chmod 0644 "${ssh_aur_public}"
 
-# TODO: Remove these commands.
-sleep 2
-ls -lhaR . || true
-sleep 2
-cat .ssh/known_hosts || true
-sleep 2
-cat .ssh/known_hosts.old || true
-sleep 2
-
 # --------------------------- #
 # Check AUR server connection #
 # --------------------------- #
@@ -255,7 +229,14 @@ sleep 2
 curl --fail https://aur.archlinux.org/ &> /dev/null
 
 # Test the connection to the AUR server.
-ssh -Tvvv -4 aur@aur.archlinux.org || true
+ssh -Tvvv -4 aur@aur.archlinux.org || {
+  if [[ ${?} == "255" ]]; then
+    echo ""
+    echo "ERROR: The connections via SSH to the server AUR is not correct."
+    echo "       Usually, the problem is related to the public and private SSH keys."
+    exit 1
+  fi
+}
 
 # -------------------------------------------- #
 # Clone AUR repository and release the package #
@@ -299,29 +280,14 @@ fi
 # Go to the user home directory.
 cd "${ENV_USER_HOME}" || exit 1
 
-# Remove the AUR SSH files.
-rm --force "${ssh_config}"
-rm --force "${ssh_aur_private}"
-rm --force "${ssh_aur_public}"
-
-# Remove the AUR directory.
+# Remove all directories and files created for the package.
+rm --force --recursive "${ssh_path}"
 rm --force --recursive "${aur_path}"
-
-# Remove the build package directory.
 rm --force --recursive "${ENV_BUILD_PACKAGE}"
-
-# Remove the deployment script.
 rm --force --recursive "${ENV_USER_HOME}/deployment.bash"
 
-# TODO: Remove these commands.
-sleep 2
-ls -lhaR . || true
-sleep 2
-cat .ssh/known_hosts || true
-sleep 2
-cat .ssh/known_hosts.old || true
-sleep 2
-
+# Lists the directories and files in the user's home folder.
+ls -lhaR .
 
 # ----------------------- #
 # Finished the deployment #

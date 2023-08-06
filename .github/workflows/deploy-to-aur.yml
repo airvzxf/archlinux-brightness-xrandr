@@ -17,7 +17,7 @@ jobs:
           # TODO: Research how to get the GitHub owner from this action.
           # TODO: Research how to get the GitHub repository from this action.
           # TODO: Research how to get the GitHub tag version from this action.
-          ENV_GITHUB_OWNER: 'airvzxf'
+          ENV_GITHUB_OWNER: ${{ toJson(github) }}
           ENV_GITHUB_REPOSITORY: 'archlinux-brightness-xrandr'
           ENV_GITHUB_TAG_VERSION_PREFIX: 'v'
           ENV_GIT_USER_EMAIL: 'israel.alberto.rv@gmail.com'
