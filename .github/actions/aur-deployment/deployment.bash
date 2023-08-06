@@ -261,16 +261,17 @@ rm --force --recursive "${ENV_USER_HOME}/deployment.bash"
 # Lists the directories and files in the user's home folder.
 ls -lhaR .
 
+sleep 2
 # ----------------------- #
 # Finished the deployment #
 # ----------------------- #
-
 set +xv
+
+echo ""
 if [[ ${ENV_IS_PRODUCTION} == "true" ]]; then
   echo "Please review this link to validate the commit in AUR."
   echo "https://aur.archlinux.org/cgit/aur.git/commit/?h=${ENV_PACKAGE_NAME}&id=${commit_hash}"
 else
-  sleep 2
   echo "ERROR: The production flag (ENV_IS_PRODUCTION) is not true."
   echo "       For this reason, the deployment to the AUR server was not achieved."
   exit 1
