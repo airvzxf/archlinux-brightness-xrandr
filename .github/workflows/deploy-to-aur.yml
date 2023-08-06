@@ -14,7 +14,7 @@ jobs:
       - name: Update the AUR package and commit the changes via Git
         uses: ./.github/actions/aur-deployment/
         env:
-          ENV_IS_PRODUCTION: 'false'
+          ENV_IS_PRODUCTION: 'true'
           ENV_GITHUB_OWNER: ${{ github.repository_owner }}
           ENV_GITHUB_REPOSITORY: ${{ github.event.repository.name }}
           ENV_GITHUB_TAG_VERSION: ${{ github.event.release.tag_name }}
