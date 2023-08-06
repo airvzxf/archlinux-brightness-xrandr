@@ -19,6 +19,7 @@ jobs:
           ENV_GITHUB_REPOSITORY: ${{ github.event.repository.name }}
           ENV_GITHUB_TAG_VERSION: ${{ github.event.release.tag_name }}
           ENV_GITHUB_TAG_VERSION_PREFIX: 'v'
+          ENV_GITHUB_TAG_VERSION_SUFFIX: ''
           ENV_GIT_USER_EMAIL: 'israel.alberto.rv@gmail.com'
           ENV_GIT_USER_NAME: 'Israel Roldan'
           ENV_PACKAGE_ARCHITECTURES: 'x86_64'

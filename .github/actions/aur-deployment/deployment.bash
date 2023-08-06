@@ -264,7 +264,12 @@ ls -lhaR .
 # ----------------------- #
 # Finished the deployment #
 # ----------------------- #
-set +xv
 
-echo "Review this link to check the commit in the AUR."
-echo "https://aur.archlinux.org/cgit/aur.git/commit/?h=${ENV_PACKAGE_NAME}&id=${commit_hash}"
+set +xv
+if [[ ${ENV_IS_PRODUCTION} == "true" ]]; then
+  echo "Please review this link to validate the commit in AUR."
+  echo "https://aur.archlinux.org/cgit/aur.git/commit/?h=${ENV_PACKAGE_NAME}&id=${commit_hash}"
+else
+  echo "WARNING: The production flag (ENV_IS_PRODUCTION) is not true."
+  echo "         For this reason, the deployment to the AUR server was not achieved."
+fi
