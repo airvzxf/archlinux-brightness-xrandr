@@ -14,11 +14,8 @@ jobs:
       - name: Update the AUR package and commit the changes via Git
         uses: ./.github/actions/aur-deployment/
         env:
-          # TODO: Research how to get the GitHub owner from this action.
-          # TODO: Research how to get the GitHub repository from this action.
-          # TODO: Research how to get the GitHub tag version from this action.
-          ENV_GITHUB_OWNER: ${{ toJson(github) }}
-          ENV_GITHUB_REPOSITORY: 'archlinux-brightness-xrandr'
+          ENV_GITHUB_OWNER: ${{ github.repository_owner }}
+          ENV_GITHUB_REPOSITORY: ${{ github.event.repository.name }}
           ENV_GITHUB_TAG_VERSION_PREFIX: 'v'
           ENV_GIT_USER_EMAIL: 'israel.alberto.rv@gmail.com'
           ENV_GIT_USER_NAME: 'Israel Roldan'
@@ -32,6 +29,7 @@ jobs:
           ENV_PACKAGE_RELEASE: '1'
           ENV_PACKAGE_SOURCES: ''
           ENV_PACKAGE_SOURCE_GITHUB: 'true'
-          ENV_PACKAGE_VERSION: '1.0.0'
+          # TODO: Research how to get the GitHub tag version from this action.
+          ENV_PACKAGE_VERSION: ${{ github.event.release.tag_name//v/ }}
           ENV_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ENV_SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
