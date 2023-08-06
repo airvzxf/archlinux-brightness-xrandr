@@ -20,6 +20,8 @@ docker run --tty --interactive --rm \
   --env ENV_GITHUB_REPOSITORY='archlinux-brightness-xrandr' \
   --env ENV_GITHUB_TAG_VERSION_PREFIX='v' \
   --env ENV_GITHUB_TAG_VERSION_SUFFIX='' \
+  --env ENV_GIT_USER_EMAIL='israel.alberto.rv@gmail.com' \
+  --env ENV_GIT_USER_NAME='Israel Roldan' \
   --env ENV_PACKAGE_ARCHITECTURES='x86_64' \
   --env ENV_PACKAGE_DEPENDENCIES='bash xorg-xrandr grep coreutils sed bc' \
   --env ENV_PACKAGE_DESCRIPTION='Changes the brightness using the command xrandr. Furthermore, adding multiple options.' \
