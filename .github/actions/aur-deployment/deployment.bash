@@ -114,24 +114,18 @@ mkdir --parents "${ENV_BUILD_PACKAGE}"
 cd "${ENV_BUILD_PACKAGE}" || exit 1
 
 # Replace the variables in the PKGBUILD file.
-sed --in-place 's|ENV_PACKAGE_INFORMATION|'"${ENV_PACKAGE_INFORMATION//$'\n'/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_INFORMATION|'"${ENV_PACKAGE_INFORMATION//|/'\n'}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_NAME|'"${ENV_PACKAGE_NAME}"'|g' PKGBUILD
 sed --in-place 's|AUTO_PACKAGE_VERSION|'"${AUTO_PACKAGE_VERSION}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_RELEASE|'"${ENV_PACKAGE_RELEASE}"'|g' PKGBUILD
 sed --in-place 's|ENV_PACKAGE_DESCRIPTION|'"${ENV_PACKAGE_DESCRIPTION}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_ARCHITECTURES|'"${ENV_PACKAGE_ARCHITECTURES//$'\n'/'\n'}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_LICENSES|'"${ENV_PACKAGE_LICENSES//$'\n'/'\n'}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_DEPENDENCIES|'"${ENV_PACKAGE_DEPENDENCIES//$'\n'/'\n'}"'|g' PKGBUILD
-sed --in-place 's|ENV_PACKAGE_PGPS|'"${ENV_PACKAGE_PGPS//$'\n'/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_ARCHITECTURES|'"${ENV_PACKAGE_ARCHITECTURES//|/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_LICENSES|'"${ENV_PACKAGE_LICENSES//|/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_DEPENDENCIES|'"${ENV_PACKAGE_DEPENDENCIES//|/'\n'}"'|g' PKGBUILD
+sed --in-place 's|ENV_PACKAGE_PGPS|'"${ENV_PACKAGE_PGPS//|/'\n'}"'|g' PKGBUILD
 sed --in-place 's|AUTO_GITHUB_URL|'"${AUTO_GITHUB_URL}"'|g' PKGBUILD
-sed --in-place 's|AUTO_PACKAGE_SOURCES|'"${AUTO_PACKAGE_SOURCES//$'\n'/'\n'}"'|g' PKGBUILD
+sed --in-place 's|AUTO_PACKAGE_SOURCES|'"${AUTO_PACKAGE_SOURCES//|/'\n'}"'|g' PKGBUILD
 sed --in-place 's|AUTO_SOURCE_DOWNLOADED|'"${AUTO_SOURCE_DOWNLOADED}"'|g' PKGBUILD
-
-sleep 2
-cat PKGBUILD
-sleep 2
-ls -lhaR .
-sleep 2
 
 # Replace the variable authentication sums in the PKGBUILD file.
 makepkg --geninteg
@@ -151,8 +145,8 @@ namcap --info PKGBUILD | grep --quiet '[WE]:' && {
 }
 
 # Build the package and check it.
-# TODO: Uncomment the below command.
-#makepkg --log --check
+# Note: If you are running local and the 'faked' process takes several minutes, you can comment it out.
+makepkg --log --check
 
 # Generate the source information file.
 makepkg --printsrcinfo > .SRCINFO
@@ -278,4 +272,5 @@ if [[ ${ENV_IS_PRODUCTION} == "true" ]]; then
 else
   echo "WARNING: The production flag (ENV_IS_PRODUCTION) is not true."
   echo "         For this reason, the deployment to the AUR server was not achieved."
+  exit 1
 fi
