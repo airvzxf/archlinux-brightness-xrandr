@@ -127,6 +127,12 @@ sed --in-place 's|AUTO_GITHUB_URL|'"${AUTO_GITHUB_URL}"'|g' PKGBUILD
 sed --in-place 's|AUTO_PACKAGE_SOURCES|'"${AUTO_PACKAGE_SOURCES//$'\n'/'\n'}"'|g' PKGBUILD
 sed --in-place 's|AUTO_SOURCE_DOWNLOADED|'"${AUTO_SOURCE_DOWNLOADED}"'|g' PKGBUILD
 
+sleep 2
+cat PKGBUILD
+sleep 2
+ls -lhaR .
+sleep 2
+
 # Replace the variable authentication sums in the PKGBUILD file.
 makepkg --geninteg
 AUTO_PACKAGE_SUMS="$(makepkg --geninteg 2> /dev/null)"
