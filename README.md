@@ -113,7 +113,7 @@ git checkout "${BRANCH_NAME}"
     - Fill in all the required information and review the 'Files changed' tab to verify the changes.
     - Tap the 'Create pull request' button to finish.
 
-## RELEASE TO AUR SERVER
+## RELEASE TO THE AUR SERVER
 
 ### Create a [new release][new release url].
 
