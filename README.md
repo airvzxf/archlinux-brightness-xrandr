@@ -10,7 +10,7 @@ View and change the brightness of a monitor using the `xrandr` command.
 
 ### DESCRIPTION
 
-It changes the brightness using the command `xrandr`.
+Command-line tool that changes the brightness using the `xrandr` command.
 
 - Executing the command: `xrandr --output MONITOR --brightness NEW_BRIGHTNESS`.
 - NEW_BRIGHTNESS:

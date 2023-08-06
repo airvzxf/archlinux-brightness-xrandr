@@ -72,7 +72,7 @@ display_help() {
   echo "  brightness-xrandr [OPTIONS]"
   echo ""
   echo "DESCRIPTION"
-  echo "  It changes the brightness using the command 'xrandr'."
+  echo "  Command-line tool that changes the brightness using the 'xrandr' command."
   echo "  Executing the command: 'xrandr --output MONITOR --brightness NEW_BRIGHTNESS'."
   echo ""
   echo "  NEW_BRIGHTNESS:"

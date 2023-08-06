@@ -24,7 +24,7 @@ docker run --tty --interactive --rm \
   --env ENV_GIT_USER_NAME='Israel Roldan' \
   --env ENV_PACKAGE_ARCHITECTURES='x86_64' \
   --env ENV_PACKAGE_DEPENDENCIES='|  bash|  xorg-xrandr|  grep|  coreutils|  sed|  bc|' \
-  --env ENV_PACKAGE_DESCRIPTION='Changes the brightness using the command xrandr. Furthermore, adding multiple options.' \
+  --env ENV_PACKAGE_DESCRIPTION='Command-line tool that changes the brightness using the xrandr command.' \
   --env ENV_PACKAGE_INFORMATION='# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>|# Contributor: Israel Roldan <israel.alberto.rv@gmail.com>' \
   --env ENV_PACKAGE_LICENSES='GPL3' \
   --env ENV_PACKAGE_NAME='brightness-xrandr' \
