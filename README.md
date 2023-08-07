@@ -159,7 +159,7 @@ Use the version format vX.X.X, where X equals to numbers, for example: v45.7.211
 
 [new release url]: https://github.com/airvzxf/archlinux-brightness-xrandr/releases/new
 
-[package file in GitHub]: https://github.com/airvzxf/archlinux-brightness-xrandr/blob/main/src/brightness-xrandr
+[package file in GitHub]: ./src/brightness-xrandr
 
 [CI deploy to AUR]: https://github.com/airvzxf/archlinux-brightness-xrandr/actions/workflows/deploy-to-aur.yml
 
