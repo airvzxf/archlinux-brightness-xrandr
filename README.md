@@ -66,6 +66,40 @@ Command-line tool that changes the brightness using the `xrandr` command.
         - In this example it will decrease the brightness by 10.
             - `brightness-xrandr --increase 80 --decrease 20 --increase 70 --decrease 10`
 
+## INSTALLATION AND MANUAL EXECUTION
+
+### Installation
+
+#### Introduction
+
+This package is stored in the AUR (Arch Linux User Repository). AUR is a repository where anyone with an Arch Linux web
+account can upload a configuration file, which has instructions for downloading and installing the package. In addition,
+it contains information on the people who maintain or contribute to it.
+
+#### AUR package installer
+
+Normally, the `pacman` command is used to install official packages. However, this command does not work for AUR
+packages. There are specific tools that help AUR package management, like `yay`.
+
+To install this package, first [install yay][install yay] and then run the following
+command: `yay --sync brightness-xrandr`.
+
+### Manual execution
+
+[Directly download][raw file of this package] the [brightness-xrandr][this package file] file and use it on your
+computer.
+
+Verify that the file has the appropriate execution permissions for your needs: `ls --long brightness-xrandr`. You can
+add execute permissions to the owner user with `chmod u+x brightness-xrandr` or to all
+with `chmod +x brightness-xrandr`.
+
+Run this tool with one of the following commands.
+
+- `./brightness-xrandr --help`.
+- `bash brightness-xrandr --help`.
+- `/usr/bin/env bash brightness-xrandr --help`.
+- `/usr/bin/bash brightness-xrandr --help`.
+
 ## CONTRIBUTE
 
 You can always follow the official GitHub guides: [contributing to projects][contributing to projects]
@@ -159,22 +193,26 @@ Use the version format vX.X.X, where X equals to numbers, for example: v45.7.211
       way to automate the release and have it grab the version of the script or file on GitHub. Or even that the release
       is already automated with line commands and not through the website on GitHub, creating an action in the workflow.
 
-[new release url]: https://github.com/airvzxf/archlinux-brightness-xrandr/releases/new
-
-[package file in GitHub]: ./src/brightness-xrandr
-
-[deploy workflow in GitHub]: .github/workflows/deploy-to-aur.yml
-
-[CI deploy to AUR]: https://github.com/airvzxf/archlinux-brightness-xrandr/actions/workflows/deploy-to-aur.yml
-
 [AUR repository]: https://aur.archlinux.org/cgit/aur.git/?h=brightness-xrandr
 
 [AUR webpage package]: https://aur.archlinux.org/packages/brightness-xrandr
 
-[contributing to projects]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects
-
-[fork a repository]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on
+[CI deploy to AUR]: https://github.com/airvzxf/archlinux-brightness-xrandr/actions/workflows/deploy-to-aur.yml
 
 [brightness xrandr GitHub project]: https://github.com/airvzxf/archlinux-brightness-xrandr
 
+[contributing to projects]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects
+
+[deploy workflow in GitHub]: .github/workflows/deploy-to-aur.yml
+
+[fork a repository]: https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on
+
 [fork brightness xrandr project]: https://github.com/airvzxf/archlinux-brightness-xrandr/fork
+
+[install yay]: https://github.com/Jguer/yay#installation
+
+[new release url]: https://github.com/airvzxf/archlinux-brightness-xrandr/releases/new
+
+[raw file of this package]: https://raw.githubusercontent.com/airvzxf/archlinux-brightness-xrandr/main/src/brightness-xrandr
+
+[this package file]: ./src/brightness-xrandr
