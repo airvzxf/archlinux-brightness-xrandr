@@ -123,6 +123,8 @@ Use the version format vX.X.X, where X equals to numbers, for example: v45.7.211
 
 - Manually change the version in [./src/brightness-xrandr][package file in GitHub]. Find the variable `VERSION="vX.X.X"`
   in the first few lines and change it to the new version.
+- Check if the variable `ENV_IS_PRODUCTION` has the `true` value
+  in [.github/workflows/deploy-to-aur.yml][deploy workflow in GitHub] file.
 
 ### Create a [new release][new release url].
 
@@ -160,6 +162,8 @@ Use the version format vX.X.X, where X equals to numbers, for example: v45.7.211
 [new release url]: https://github.com/airvzxf/archlinux-brightness-xrandr/releases/new
 
 [package file in GitHub]: ./src/brightness-xrandr
+
+[deploy workflow in GitHub]: .github/workflows/deploy-to-aur.yml
 
 [CI deploy to AUR]: https://github.com/airvzxf/archlinux-brightness-xrandr/actions/workflows/deploy-to-aur.yml
 
