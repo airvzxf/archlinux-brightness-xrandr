@@ -23,16 +23,16 @@ Command-line tool that changes the brightness using the `xrandr` command.
 
 ### OPTIONS:
 
-| **Abbr** | **Long**         | **Information**                                                                                                                                                                                                   |
-|----------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| -c       | --current        | Shows the current information: selected monitor and brightness.<br> This option is only compatible with the option `--monitor`.<br> - Required: no<br> - Type:     none<br> - Values:   none<br> - Default:  none |
-| -d       | --decrease       | Decrease the brightness.<br> - Required: yes - do not select `--increase`<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: none                                                         |
-| -h       | --help           | Display information for this command and exit.<br> -Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                                                          |
-| -i       | --increase       | Increase the brightness.<br> - Required: yes - do not select `--decrease`<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: none                                                         |
-| -l       | --limit          | Set the limit of the brightness.<br> - Required: no<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: 100                                                                                |
-| -m       | --monitor        | Sets the name of the monitor, which will change the brightness.<br> It can get the name of the monitor with the `xrandr` command.<br> - Required: no<br> - Type: string<br> - Values: HDMI-0<br> - Default: DP-0  |
-| -v       | --version        | Display the version of this tool along with the project information and exit.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                          |
-|          | --version-simple | Display the version of this tool and exit.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                                                             |
+| **Abbr** | **Long**         | **Information**                                                                                                                                                                                                  |
+|----------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -c       | --current        | Shows the current information: selected monitor and brightness.<br> This option is only compatible with the option `--monitor`.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none       |
+| -d       | --decrease       | Decrease the brightness.<br> - Required: yes - do not select `--increase`<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: none                                                        |
+| -h       | --help           | Display information for this command and exit.<br> -Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                                                         |
+| -i       | --increase       | Increase the brightness.<br> - Required: yes - do not select `--decrease`<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: none                                                        |
+| -l       | --limit          | Set the limit of the brightness.<br> - Required: no<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: 100                                                                               |
+| -m       | --monitor        | Sets the name of the monitor, which will change the brightness.<br> It can get the name of the monitor with the `xrandr` command.<br> - Required: no<br> - Type: string<br> - Values: HDMI-0<br> - Default: DP-0 |
+| -v       | --version        | Display the version of this tool along with the project information and exit.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                         |
+|          | --version-simple | Display the version of this tool and exit.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                                                            |
 
 ### EXAMPLES:
 
