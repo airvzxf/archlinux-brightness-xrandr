@@ -1,72 +1,14 @@
 #!/usr/bin/env bash
 set +xve
 
+VERSION="v1.0.1"
 MONITOR="DP-0"
 MATH_SIGN="+"
 DISPLAY_INFORMATION=FALSE
 BRIGHTNESS_LIMIT="100"
 BRIGHTNESS=""
 
-parse_arguments() {
-  while [[ ${#} -gt 0 ]]; do
-    case "${1}" in
-    -c | --current)
-      # Remove this argument.
-      shift
-      DISPLAY_INFORMATION=true
-      ;;
-    -d | --decrease)
-      # Remove this argument.
-      shift
-      MATH_SIGN="-"
-      BRIGHTNESS="${1//[-+]/}"
-      # Remove this value.
-      shift
-      ;;
-    -h | --help)
-      display_help
-      ;;
-    -i | --increase)
-      # Remove this argument.
-      shift
-      MATH_SIGN="+"
-      BRIGHTNESS="${1//[-+]/}"
-      # Remove this value.
-      shift
-      ;;
-    -l | --limit)
-      # Remove this argument.
-      shift
-      BRIGHTNESS_LIMIT="${1}"
-      # Remove this value.
-      shift
-      ;;
-    -m | --monitor)
-      # Remove this argument.
-      shift
-      MONITOR="${1}"
-      # Remove this value.
-      shift
-      ;;
-    --* | -*)
-      echo "Unknown option ${1}."
-      echo "Review the help with this command:"
-      echo "  brightness-xrandr -h"
-      exit 1
-      ;;
-    *)
-      # Any argument without an option.
-      echo "Unknown option ${1}."
-      echo "Review the help with this command:"
-      echo "  brightness-xrandr -h"
-      exit 1
-      ;;
-    esac
-  done
-}
-
 display_help() {
-  echo "brightness-xrandr v2023.08.01.01"
   echo ""
   echo "USAGE:"
   echo "  brightness-xrandr [OPTIONS]"
@@ -126,8 +68,20 @@ display_help() {
   echo "  │      │                  │   - Type:     string                             │"
   echo "  │      │                  │   - Values:   HDMI-0                             │"
   echo "  │      │                  │   - Default:  DP-3                               │"
+  echo "  ├──────┼──────────────────┼──────────────────────────────────────────────────┤"
+  echo "  │  -V  │ --version        │ Display the version of this tool along with the  │"
+  echo "  │      │                  │ project information and exit.                    │"
+  echo "  │      │                  │   - Required: no                                 │"
+  echo "  │      │                  │   - Type:     none                               │"
+  echo "  │      │                  │   - Values:   none                               │"
+  echo "  │      │                  │   - Default:  none                               │"
+  echo "  ├──────┼──────────────────┼──────────────────────────────────────────────────┤"
+  echo "  │      │ --version-simple │ Display the version of this tool and exit.       │"
+  echo "  │      │                  │   - Required: no                                 │"
+  echo "  │      │                  │   - Type:     none                               │"
+  echo "  │      │                  │   - Values:   none                               │"
+  echo "  │      │                  │   - Default:  none                               │"
   echo "  └──────┴──────────────────┴──────────────────────────────────────────────────┘"
-  echo ""
   echo ""
   echo "EXAMPLES:"
   echo "  - Using the default monitor, increase the brightness."
@@ -138,18 +92,18 @@ display_help() {
   echo "    - Commands:"
   echo "        brightness-xrandr --decrease 7"
   echo ""
-  echo "- Monitor settings and brightness increase."
+  echo "  - Monitor settings and brightness increase."
   echo "    - Commands:"
   echo "        brightness-xrandr --monitor HDMI-0 --increase 3"
   echo ""
-  echo "- Increases the maximum brightness value to 150. Which is equal to 1.5 when"
-  echo "  using the 'xrandr' command."
+  echo "  - Increases the maximum brightness value to 150. Which is equal to 1.5 when"
+  echo "    using the 'xrandr' command."
   echo "    - In this example, the current brightness value is 95; this will increase"
   echo "      the brightness value to 110 or 1.10 in 'xrandr'. If the limit was 100,"
   echo "      this would have set the brightness to 100 (1.0) instead of 110 (1.10)."
   echo "        brightness-xrandr --limit 150 --increase 15"
   echo ""
-  echo "- Get the current brightness of a specific monitor."
+  echo "  - Get the current brightness of a specific monitor."
   echo "    - Commands:"
   echo "        brightness-xrandr --current"
   echo "        brightness-xrandr --current --monitor HDMI-0"
@@ -158,14 +112,94 @@ display_help() {
   echo "  - Multiple options can be used multiple times. It will only take the last"
   echo "    value of each option."
   echo "    - In this example it will decrease the brightness by 10."
-  echo "        brightness-xrandr \\"
-  echo "          --increase 80 \\"
-  echo "          --decrease 20 \\"
-  echo "          --increase 70 \\"
-  echo "          --decrease 10"
+  echo "        brightness-xrandr --decrease 20 --increase 70 --decrease 10"
+  echo ""
+  display_version
   echo ""
   echo ""
-  exit 0
+}
+
+display_version() {
+  echo "VERSION:"
+  echo "  ${VERSION}"
+  echo ""
+  echo "  Source: https://github.com/airvzxf/archlinux-brightness-xrandr/"
+  echo "  Author: Israel Roldan"
+  echo "    Email: israel.alberto.rv@gmail.com"
+  echo "    GitHub: @airvzxf"
+  echo "    Twitter: @IsraelAlbert_RV"
+  echo "    Website: https://www.rovisoft.net/"
+}
+
+display_version_simple() {
+  echo "${VERSION}"
+}
+
+parse_arguments() {
+  while [[ ${#} -gt 0 ]]; do
+    case "${1}" in
+      -c | --current)
+        # Remove this argument.
+        shift
+        DISPLAY_INFORMATION=true
+        ;;
+      -d | --decrease)
+        # Remove this argument.
+        shift
+        MATH_SIGN="-"
+        BRIGHTNESS="${1//[-+]/}"
+        # Remove this value.
+        shift
+        ;;
+      -h | --help)
+        display_help
+        exit 0
+        ;;
+      -i | --increase)
+        # Remove this argument.
+        shift
+        MATH_SIGN="+"
+        BRIGHTNESS="${1//[-+]/}"
+        # Remove this value.
+        shift
+        ;;
+      -l | --limit)
+        # Remove this argument.
+        shift
+        BRIGHTNESS_LIMIT="${1}"
+        # Remove this value.
+        shift
+        ;;
+      -m | --monitor)
+        # Remove this argument.
+        shift
+        MONITOR="${1}"
+        # Remove this value.
+        shift
+        ;;
+      -V | --version)
+        display_version
+        exit 0
+        ;;
+      --version-simple)
+        display_version_simple
+        exit 0
+        ;;
+      --* | -*)
+        echo "Unknown option ${1}."
+        echo "Review the help with this command:"
+        echo "  brightness-xrandr -h"
+        exit 1
+        ;;
+      *)
+        # Any argument without an option.
+        echo "Unknown option ${1}."
+        echo "Review the help with this command:"
+        echo "  brightness-xrandr -h"
+        exit 1
+        ;;
+    esac
+  done
 }
 
 main() {
@@ -173,7 +207,7 @@ main() {
 
   echo "MONITOR: ${MONITOR}"
 
-  # Check brightness
+  # Check brightness.
   xrandr --verbose --current |
     grep --after-context 5 ^"${MONITOR}" |
     tail --lines 1 |
@@ -183,7 +217,7 @@ main() {
     exit 0
   }
 
-  # Get brightness
+  # Get brightness.
   local XRANDR_BRIGHTNESS
   XRANDR_BRIGHTNESS=$(
     xrandr --verbose --current |
@@ -193,7 +227,7 @@ main() {
   )
   echo "XRANDR_BRIGHTNESS: ${XRANDR_BRIGHTNESS}"
 
-  if [[ "${DISPLAY_INFORMATION}" = true ]]; then
+  if [[ ${DISPLAY_INFORMATION} == true ]]; then
     exit 0
   fi
 
@@ -202,7 +236,7 @@ main() {
   echo "BRIGHTNESS_LIMIT: ${BRIGHTNESS_LIMIT}"
   echo "BRIGHTNESS_LIMIT_XRANDR: ${BRIGHTNESS_LIMIT_XRANDR}"
 
-  if [[ "${MATH_SIGN}" = "+" ]]; then
+  if [[ ${MATH_SIGN} == "+" ]]; then
     echo "Increase the brightness."
   else
     echo "Decrease the brightness."
@@ -219,21 +253,21 @@ main() {
   BRIGHTNESS_NEW=$(echo "${XRANDR_BRIGHTNESS} ${MATH_SIGN} ${BRIGHTNESS_MODIFIER}" | bc)
   echo "BRIGHTNESS_NEW: ${BRIGHTNESS_NEW}"
 
-  if [[ $(echo "${BRIGHTNESS_NEW} > ${BRIGHTNESS_LIMIT_XRANDR}" | bc) = "1" ]]; then
+  if [[ $(echo "${BRIGHTNESS_NEW} > ${BRIGHTNESS_LIMIT_XRANDR}" | bc) == "1" ]]; then
     echo "Set the brightness to maximum (xrandr value to ${BRIGHTNESS_LIMIT_XRANDR})."
     BRIGHTNESS_NEW="${BRIGHTNESS_LIMIT_XRANDR}"
     echo "BRIGHTNESS_NEW: ${BRIGHTNESS_NEW}"
   fi
 
-  if [[ $(echo "${BRIGHTNESS_NEW} < 0" | bc) = "1" ]]; then
-      echo "Set the brightness to minimum (xrandr value to 0)."
-      BRIGHTNESS_NEW="0"
-      echo "BRIGHTNESS_NEW: ${BRIGHTNESS_NEW}"
+  if [[ $(echo "${BRIGHTNESS_NEW} < 0" | bc) == "1" ]]; then
+    echo "Set the brightness to minimum (xrandr value to 0)."
+    BRIGHTNESS_NEW="0"
+    echo "BRIGHTNESS_NEW: ${BRIGHTNESS_NEW}"
   fi
 
   xrandr --output "${MONITOR}" --brightness "${BRIGHTNESS_NEW}"
 
-  # Validate brightness
+  # Validate brightness.
   XRANDR_BRIGHTNESS=$(
     xrandr --verbose --current |
       grep --after-context 5 ^"${MONITOR}" |

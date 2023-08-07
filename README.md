@@ -23,14 +23,16 @@ Command-line tool that changes the brightness using the `xrandr` command.
 
 ### OPTIONS:
 
-| **Abbr** | **Long**   | **Information**                                                                                                                                                                                                         |
-|----------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| -c       | --current  | Shows the current information: selected monitor and brightness.<br> This option is only compatible with the option `--monitor`.<br> - Required: no<br> - Type:     none<br> - Values:   none<br> - Default:  none       |
-| -d       | --decrease | Decrease the brightness.<br> - Required: yes - do not select `--increase`<br> - Type:     unsigned integer<br> - Values:   0 - 100, or more<br> - Default:  none                                                        |
-| -h       | --help     | Display information for this command and exit.<br> -Required: no<br> - Type:     none<br> - Values:   none<br> - Default:  none                                                                                         |
-| -i       | --increase | Increase the brightness.<br> - Required: yes - do not select `--decrease`<br> - Type:     unsigned integer<br> - Values:   0 - 100, or more<br> - Default:  none                                                        |
-| -l       | --limit    | Set the limit of the brightness.<br> - Required: no<br> - Type:     unsigned integer<br> - Values:   0 - 100, or more<br> - Default:  100                                                                               |
-| -m       | --monitor  | Sets the name of the monitor, which will change the brightness.<br> It can get the name of the monitor with the `xrandr` command.<br> - Required: no<br> - Type:     string<br> - Values:   HDMI-0<br> - Default:  DP-0 |
+| **Abbr** | **Long**         | **Information**                                                                                                                                                                                                   |
+|----------|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -c       | --current        | Shows the current information: selected monitor and brightness.<br> This option is only compatible with the option `--monitor`.<br> - Required: no<br> - Type:     none<br> - Values:   none<br> - Default:  none |
+| -d       | --decrease       | Decrease the brightness.<br> - Required: yes - do not select `--increase`<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: none                                                         |
+| -h       | --help           | Display information for this command and exit.<br> -Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                                                          |
+| -i       | --increase       | Increase the brightness.<br> - Required: yes - do not select `--decrease`<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: none                                                         |
+| -l       | --limit          | Set the limit of the brightness.<br> - Required: no<br> - Type: unsigned integer<br> - Values: 0 - 100, or more<br> - Default: 100                                                                                |
+| -m       | --monitor        | Sets the name of the monitor, which will change the brightness.<br> It can get the name of the monitor with the `xrandr` command.<br> - Required: no<br> - Type: string<br> - Values: HDMI-0<br> - Default: DP-0  |
+| -v       | --version        | Display the version of this tool along with the project information and exit.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                          |
+|          | --version-simple | Display the version of this tool and exit.<br> - Required: no<br> - Type: none<br> - Values: none<br> - Default: none                                                                                             |
 
 ### EXAMPLES:
 
@@ -115,12 +117,19 @@ git checkout "${BRANCH_NAME}"
 
 ## RELEASE TO THE AUR SERVER
 
+Use the version format vX.X.X, where X equals to numbers, for example: v45.7.211.
+
+### Change in the source code.
+
+- Manually change the version in [./src/brightness-xrandr][package file in GitHub]. Find the variable `VERSION="vX.X.X"`
+  in the first few lines and change it to the new version.
+
 ### Create a [new release][new release url].
 
 - You can choose between a branch or a specific commitment.
     - If your commit is the latest at this time, you can select the 'main' branch.
     - Otherwise, if your commit is old, it's better to choose a specific commit.
-- Create a new tag that is larger than the previous one. Use the format vX.X.X, where X equals a number.
+- Create a new tag that is larger than the previous one (vX.X.X).
 - Add a release title. Preferred to use 'Release vX.X.X'.
 - Add a description. It is recommended to add a brief description and use the 'Generate release notes' button.
 - Select the option: 'Set as the latest release'.
@@ -135,7 +144,22 @@ git checkout "${BRANCH_NAME}"
 - You can check the [AUR repository information][AUR repository].
 - You can check the [package in the AUR website][AUR webpage package].
 
+## TO-DO LIST
+
+### RELEASE
+
+- [ ] Version of this tool. It is not defined, and we have to find the best approach. But definitely, the expectation is
+  to look for the simplest and most automated way.
+    - Option #1: When you create the release on GitHub, automatically modify the source code by changing the version in
+      the script file. Furthermore, make a new commit with these changes, along with a push, and modify in the release
+      the commit that is pointed to this last commit.
+    - Option #2: It is precisely the opposite of Option #1. The version is assigned in the script or a file. Then find a
+      way to automate the release and have it grab the version of the script or file on GitHub. Or even that the release
+      is already automated with line commands and not through the website on GitHub, creating an action in the workflow.
+
 [new release url]: https://github.com/airvzxf/archlinux-brightness-xrandr/releases/new
+
+[package file in GitHub]: https://github.com/airvzxf/archlinux-brightness-xrandr/blob/main/src/brightness-xrandr
 
 [CI deploy to AUR]: https://github.com/airvzxf/archlinux-brightness-xrandr/actions/workflows/deploy-to-aur.yml
 
