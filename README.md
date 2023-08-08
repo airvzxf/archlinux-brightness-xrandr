@@ -1,6 +1,6 @@
 # ArchLinux: Brightness xrandr
 
-It is a command-line tool to display and change the brightness of a monitor using the `xrandr` command.
+Command-line tool that display and change the brightness of a monitor using the `xrandr` command.
 
 ## INFORMATION
 
@@ -89,7 +89,7 @@ command: `yay --sync brightness-xrandr`.
 [Directly download][raw file of this package] the [brightness-xrandr][this package file] file and use it on your
 computer.
 
-Verify that the file has the appropriate execution permissions for your needs: `ls --long brightness-xrandr`. You can
+Verify that the file has the appropriate execution permissions for your needs: `ls -l brightness-xrandr`. You can
 add execute permissions to the owner user with `chmod u+x brightness-xrandr` or to all
 with `chmod +x brightness-xrandr`.
 
