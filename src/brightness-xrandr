@@ -185,14 +185,7 @@ parse_arguments() {
         display_version_simple
         exit 0
         ;;
-      --* | -*)
-        echo "Unknown option ${1}."
-        echo "Review the help with this command:"
-        echo "  brightness-xrandr -h"
-        exit 1
-        ;;
-      *)
-        # Any argument without an option.
+      --* | -* | *)
         echo "Unknown option ${1}."
         echo "Review the help with this command:"
         echo "  brightness-xrandr -h"
