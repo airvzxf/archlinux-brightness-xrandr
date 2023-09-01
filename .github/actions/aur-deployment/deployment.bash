@@ -33,7 +33,6 @@ validate_environment_variable ENV_PACKAGE_DESCRIPTION
 validate_environment_variable ENV_PACKAGE_INFORMATION
 validate_environment_variable ENV_PACKAGE_LICENSES
 validate_environment_variable ENV_PACKAGE_NAME
-validate_environment_variable ENV_PACKAGE_PGPS
 validate_environment_variable ENV_PACKAGE_RELEASE
 validate_environment_variable ENV_SSH_PRIVATE_KEY
 validate_environment_variable ENV_SSH_PUBLIC_KEY
@@ -41,6 +40,7 @@ validate_environment_variable ENV_SSH_PUBLIC_KEY
 # Environment variables which are optional to set from Docker.
 echo "ENV_GITHUB_TAG_VERSION_PREFIX: ${ENV_GITHUB_TAG_VERSION_PREFIX}"
 echo "ENV_GITHUB_TAG_VERSION_SUFFIX: ${ENV_GITHUB_TAG_VERSION_SUFFIX}"
+echo "ENV_PACKAGE_PGPS: ${ENV_PACKAGE_PGPS}"
 echo "ENV_PACKAGE_SOURCES: ${ENV_PACKAGE_SOURCES}"
 echo "ENV_PACKAGE_SOURCE_GITHUB: ${ENV_PACKAGE_SOURCE_GITHUB}"
 
