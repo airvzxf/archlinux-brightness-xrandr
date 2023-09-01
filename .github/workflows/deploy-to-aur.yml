@@ -28,6 +28,7 @@ jobs:
           ENV_PACKAGE_INFORMATION: '# Maintainer: Israel Roldan <israel.alberto.rv@gmail.com>|# Contributor: Israel Roldan <israel.alberto.rv@gmail.com>'
           ENV_PACKAGE_LICENSES: 'GPL3'
           ENV_PACKAGE_NAME: 'brightness-xrandr'
+          ENV_PACKAGE_PGPS: ''
 #          ENV_PACKAGE_PGPS: '|  63ADA633FE7468630D9BC56175530B8B9F74CF3A # PGP: Israel Roldan (airvzxf) <israel.alberto.rv@gmail.com>, https://github.com/airvzxf.gpg|'
           ENV_PACKAGE_RELEASE: '1'
           ENV_PACKAGE_SOURCES: ''
