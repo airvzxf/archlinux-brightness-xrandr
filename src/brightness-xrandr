@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set +xve
 
-VERSION="v1.0.5"
+VERSION="v1.0.6"
 MONITOR="DP-0"
 MATH_SIGN="+"
 DISPLAY_INFORMATION=FALSE
